@@ -15,6 +15,6 @@ public class Publications {
 
     @GetMapping("/test")
     public ResponseEntity<String> test() {
-        return new ResponseEntity<>("Hello World, and welcome to k-pop social", HttpStatus.OK);
+        return new ResponseEntity<>("Hello World, and welcome to social", HttpStatus.OK);
     }
 }
