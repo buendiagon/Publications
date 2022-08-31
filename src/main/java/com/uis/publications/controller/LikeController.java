@@ -17,10 +17,12 @@ import java.util.List;
 public class LikeController {
     @Autowired
     ILikeService likeService;
+/*
     @GetMapping("/all")
     public ResponseEntity<List<LikeDTO>> getLikes(){
         return ResponseEntity.ok(this.likeService.getLikes());
     }
+*/
 
     @PostMapping
     public ResponseEntity<LikeDTO> createLike(@Valid @RequestBody LikeDTO likeDTO){
@@ -28,4 +30,6 @@ public class LikeController {
         likeDTO=likeService.createLike(likeDTO);
         return ResponseEntity.ok(likeDTO);
     }
+
+
 }
