@@ -17,8 +17,10 @@ import java.util.List;
 public class CommentController {
     @Autowired
     ICommentService commentService;
+/*
     @GetMapping("/all")
     public ResponseEntity<List<CommentDTO>> getComments(){return ResponseEntity.ok(commentService.getComments());}
+*/
 
     @PostMapping
     public ResponseEntity<CommentDTO> createComment(@Valid @RequestBody CommentDTO commentDTO){
