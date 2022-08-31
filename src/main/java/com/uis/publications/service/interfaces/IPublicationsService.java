@@ -15,4 +15,6 @@ public interface IPublicationsService {
     List<PublicationsDTO> getTrends();
 
     List<PublicationsDTO>getNews(Long id);
+
+    PublicationsDTO createPublication(PublicationsDTO publicationsDTO);
 }

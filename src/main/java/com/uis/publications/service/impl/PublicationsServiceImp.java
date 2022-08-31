@@ -1,5 +1,6 @@
 package com.uis.publications.service.impl;
 
+import com.uis.publications.mappers.LikeMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -48,6 +49,12 @@ public class PublicationsServiceImp implements IPublicationsService {
         }
         Collections.sort(listDTO,new ComparePublicationsDTO());
         return listDTO;
+    }
+
+    @Override
+    public PublicationsDTO createPublication(PublicationsDTO publicationsDTO) {
+        return PublicationsMapper.INSTANCE.toPublicationsDTO(
+                this.publicationsRepository.save(PublicationsMapper.INSTANCE.toPublication(publicationsDTO)));
     }
 
     public List<PublicationsDTO> getTrends(){

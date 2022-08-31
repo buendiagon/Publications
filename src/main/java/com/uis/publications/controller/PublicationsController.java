@@ -1,5 +1,6 @@
 package com.uis.publications.controller;
 
+import com.uis.publications.dto.LikeDTO;
 import com.uis.publications.dto.PublicationsDTO;
 import com.uis.publications.model.Publication;
 import com.uis.publications.service.interfaces.IPublicationsService;
@@ -14,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -51,6 +53,11 @@ public class PublicationsController {
     @GetMapping("/{id}")
     public ResponseEntity<List<PublicationsDTO>> getNews(@PathVariable Long id){return ResponseEntity.ok(this.publicationsService.getNews(id));}
 
+    @PostMapping
+    public ResponseEntity<PublicationsDTO> createPublication(@Valid @RequestBody PublicationsDTO publicationsDTO){
+        publicationsDTO=publicationsService.createPublication(publicationsDTO);
+        return ResponseEntity.ok(publicationsDTO);
+    }
 /*    @GetMapping("/test")
     public ResponseEntity<String> test() {
         return new ResponseEntity<>("Hello World, and welcome to k-pop social", HttpStatus.OK);

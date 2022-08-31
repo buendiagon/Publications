@@ -58,7 +58,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     CorsConfiguration cors = new CorsConfiguration();
                     cors.setAllowedOrigins(Arrays.asList("http://localhost:4200", "http://127.0.0.1:80",
                             "https://front-ksocial.herokuapp.com", "https://social-kchat.herokuapp.com",
-                            "https://social-publications.herokuapp.com"));
+                            "https://social-authorization.herokuapp.com"));
                     cors.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS"));
                     cors.setAllowedHeaders(Arrays.asList("Access-Control-Allow-Headers", "Access-Control-Allow-Origin",
                             "Access-Control-Request-Method", "Access-Control-Request-Headers", "Origin",
