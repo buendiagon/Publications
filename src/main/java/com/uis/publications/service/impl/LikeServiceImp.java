@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
  **/
 @Service
 public class LikeServiceImp implements ILikeService {
-
+    @Autowired
     ILikeRepository likeRepository;
     @Override
     public List<LikeDTO> getLikes() {

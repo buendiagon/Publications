@@ -2,6 +2,7 @@ package com.uis.publications.controller;
 
 import com.uis.publications.dto.PublicationsDTO;
 import com.uis.publications.service.interfaces.IPublicationsService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +17,7 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("/api/news")
 public class PublicationsController {
-
+    @Autowired
     IPublicationsService publicationsService;
 
     @GetMapping("/pagueable")
