@@ -15,14 +15,14 @@ import java.util.stream.Collectors;
  **/
 @Service
 public class LikeServiceImp implements ILikeService {
-    @Autowired
+
     ILikeRepository likeRepository;
     @Override
     public List<LikeDTO> getLikes() {
         List<Like> geLike = likeRepository.findAll();
-        List<LikeDTO> listDto=geLike.stream()
+        return geLike.stream()
                 .map(LikeMapper.INSTANCE::toLikeDTO).collect(Collectors.toList());
-        return listDto;
+        
     }
     @Override
     public LikeDTO createLike(LikeDTO likeDTO) {

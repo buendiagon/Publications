@@ -11,5 +11,5 @@ public interface IPublicationsService {
     Page<PublicationsDTO> getTrends(Pageable pageable);
     Page<PublicationsDTO>getNews(Long id,Pageable pageable);
 
-    PublicationsDTO createPublication(PublicationsDTO publicationsDTO);
+    Boolean createPublication(PublicationsDTO publicationsDTO);
 }

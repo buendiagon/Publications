@@ -17,16 +17,15 @@ import java.util.stream.Collectors;
 
 @Service
 public class CommentServiceImp implements ICommentService {
-    @Autowired
+
     ICommentRepository commentRepository;
 
 
     @Override
     public List<CommentDTO> getComments() {
         List<Comment> geComment =  commentRepository.findAll();
-        List<CommentDTO> listDTO = geComment.stream()
+        return geComment.stream()
                 .map(CommentMapper.INSTANCE::toCommentDTO).collect(Collectors.toList());
-        return listDTO;
     }
     @Override
     public CommentDTO createCommnet(CommentDTO commentDTO) {

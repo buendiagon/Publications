@@ -27,7 +27,7 @@ public class PublicationsDTO implements Serializable {
     private String description;
 
     private String photo_url;
-    @NotNull
+
     private Date created=new Date();
 
     private Date updated = new Date();
