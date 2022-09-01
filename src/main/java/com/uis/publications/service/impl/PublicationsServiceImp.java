@@ -110,4 +110,11 @@ public class PublicationsServiceImp implements IPublicationsService {
             return true;
     }
 
+    @Override
+    public Boolean pullNews(PublicationsDTO publicationsDTO) {
+        Publication publication=PublicationsMapper.INSTANCE.toPublication((publicationsDTO));
+        this.publicationsRepository.save((publication));
+        return true;
+    }
+
 }
