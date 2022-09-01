@@ -80,7 +80,7 @@ public class PublicationsServiceImp implements IPublicationsService {
 
     private void addNumLikes(PublicationsDTO newList, List<LikeDTO> likeDTOS, List<LikeDTO> numLikes){
         for(LikeDTO likeDTO:likeDTOS){
-            if(Objects.equals(newList.getId(), likeDTO.getId_new())){
+            if(Objects.equals(newList.getId(), likeDTO.getId_new())&& likeDTO.getIs_like()){
                 numLikes.add(likeDTO);
             }
         }
