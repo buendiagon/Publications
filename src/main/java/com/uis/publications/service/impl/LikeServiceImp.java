@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
  **/
 @Service
 public class LikeServiceImp implements ILikeService {
-
+    @Autowired
     ILikeRepository likeRepository;
     @Override
     public List<LikeDTO> getLikes() {
@@ -25,8 +25,19 @@ public class LikeServiceImp implements ILikeService {
         
     }
     @Override
-    public LikeDTO createLike(LikeDTO likeDTO) {
-        return LikeMapper.INSTANCE.toLikeDTO(
-                this.likeRepository.save(LikeMapper.INSTANCE.toLike(likeDTO)));
+    public Boolean createLike(LikeDTO likeDTO) {
+     Like like=LikeMapper.INSTANCE.toLike(likeDTO);
+     this.likeRepository.save(like);
+     return true;
     }
+
+    @Override
+    public Boolean deleLikeById(Long id) {
+        if(this.likeRepository.existsById(id)){
+            this.likeRepository.deleteById(id);
+            return true;
+        }
+        return false;
+    }
+
 }

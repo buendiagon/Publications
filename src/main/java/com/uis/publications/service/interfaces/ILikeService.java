@@ -9,7 +9,9 @@ import java.util.List;
 public interface ILikeService {
     List<LikeDTO> getLikes();
 
-    LikeDTO createLike(LikeDTO likeDTO);
+    Boolean createLike(LikeDTO likeDTO);
+
+    Boolean deleLikeById(Long id);
 
 
     /*    Long getLikesPub(Long id);*/

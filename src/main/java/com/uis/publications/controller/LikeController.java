@@ -25,10 +25,13 @@ public class LikeController {
 */
 
     @PostMapping
-    public ResponseEntity<LikeDTO> createLike(@Valid @RequestBody LikeDTO likeDTO){
+    public ResponseEntity<Boolean> createLike(@Valid @RequestBody LikeDTO likeDTO){
+        return ResponseEntity.ok(this.likeService.createLike(likeDTO));
+    }
 
-        likeDTO=likeService.createLike(likeDTO);
-        return ResponseEntity.ok(likeDTO);
+    @DeleteMapping
+    public ResponseEntity<Boolean> deleteLikeById(@RequestParam Long id){
+        return ResponseEntity.ok(this.likeService.deleLikeById(id));
     }
 
 

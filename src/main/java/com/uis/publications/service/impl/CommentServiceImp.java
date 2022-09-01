@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class CommentServiceImp implements ICommentService {
-
+    @Autowired
     ICommentRepository commentRepository;
 
 

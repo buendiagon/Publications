@@ -1,5 +1,6 @@
 package com.uis.publications.service.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -22,8 +23,11 @@ import java.util.stream.Collectors;
  **/
 @Service
 public class PublicationsServiceImp implements IPublicationsService {
+    @Autowired
     IPublicationsRepository publicationsRepository;
+    @Autowired
     ILikeService likeService;
+    @Autowired
     ICommentService commentService;
 
     @Override
@@ -76,7 +80,7 @@ public class PublicationsServiceImp implements IPublicationsService {
 
     private void addNumLikes(PublicationsDTO newList, List<LikeDTO> likeDTOS, List<LikeDTO> numLikes){
         for(LikeDTO likeDTO:likeDTOS){
-            if(Objects.equals(newList.getId(), likeDTO.getId_new())){
+            if(Objects.equals(newList.getId(), likeDTO.getId_new())&& likeDTO.getIs_like()){
                 numLikes.add(likeDTO);
             }
         }
@@ -104,6 +108,13 @@ public class PublicationsServiceImp implements IPublicationsService {
             Publication publication= PublicationsMapper.INSTANCE.toPublication(publicationsDTO);
             this.publicationsRepository.save(publication);
             return true;
+    }
+
+    @Override
+    public Boolean pullNews(PublicationsDTO publicationsDTO) {
+        Publication publication=PublicationsMapper.INSTANCE.toPublication((publicationsDTO));
+        this.publicationsRepository.save((publication));
+        return true;
     }
 
 }
