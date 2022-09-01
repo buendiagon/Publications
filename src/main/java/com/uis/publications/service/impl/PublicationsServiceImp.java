@@ -13,7 +13,6 @@ import com.uis.publications.repository.IPublicationsRepository;
 import com.uis.publications.service.interfaces.ICommentService;
 import com.uis.publications.service.interfaces.ILikeService;
 import com.uis.publications.service.interfaces.IPublicationsService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -23,14 +22,9 @@ import java.util.stream.Collectors;
  **/
 @Service
 public class PublicationsServiceImp implements IPublicationsService {
-    @Autowired
     IPublicationsRepository publicationsRepository;
-    @Autowired
     ILikeService likeService;
-
-    @Autowired
     ICommentService commentService;
-
 
     @Override
     public Page<PublicationsDTO> getTrends(Pageable pageable) {
@@ -106,9 +100,10 @@ public class PublicationsServiceImp implements IPublicationsService {
     }
 
     @Override
-    public PublicationsDTO createPublication(PublicationsDTO publicationsDTO) {
-        return PublicationsMapper.INSTANCE.toPublicationsDTO(
-                this.publicationsRepository.save(PublicationsMapper.INSTANCE.toPublication(publicationsDTO)));
+    public Boolean createPublication(PublicationsDTO publicationsDTO) {
+            Publication publication= PublicationsMapper.INSTANCE.toPublication(publicationsDTO);
+            this.publicationsRepository.save(publication);
+            return true;
     }
 
 }
