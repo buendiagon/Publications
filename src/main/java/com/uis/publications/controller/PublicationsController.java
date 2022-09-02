@@ -23,7 +23,7 @@ public class PublicationsController {
     @GetMapping("/pagueable")
     public ResponseEntity<Page<PublicationsDTO>> getTrends(Pageable pageable){ return ResponseEntity.ok(publicationsService.getTrends(pageable));}
 
-    @GetMapping("/pagueable/{id}")
+    @GetMapping("/pagueableById")
     public ResponseEntity<Page<PublicationsDTO>> getNews(@RequestParam Long id,Pageable pageable){return ResponseEntity.ok(this.publicationsService.getNews(id,pageable));}
 
     @PostMapping
