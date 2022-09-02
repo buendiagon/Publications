@@ -32,13 +32,13 @@ public class PublicationsServiceImp implements IPublicationsService {
 
     @Override
     public Page<PublicationsDTO> getTrends(Pageable pageable) {
-        List<PublicationsDTO> listDTO= getNew();
+        List<PublicationsDTO> listDTO= getPublications();
         return createPage(pageable,listDTO);
     }
 
     @Override
     public Page<PublicationsDTO> getNews(Long id_New,Pageable pageable) {
-        List<PublicationsDTO> listDTOS= getNew();
+        List<PublicationsDTO> listDTOS= getPublications();
         ArrayList<PublicationsDTO> listDTO=new ArrayList<>(listDTOS);
         for(PublicationsDTO newList:listDTO){
             if(Objects.equals(id_New, newList.getId())){
@@ -48,7 +48,7 @@ public class PublicationsServiceImp implements IPublicationsService {
         return createPage(pageable,listDTOS);
     }
 
-    private List<PublicationsDTO> getNew(){
+    private List<PublicationsDTO> getPublications(){
         List<Publication> geTrends =  publicationsRepository.findAll();
         List<PublicationsDTO> listDTO= geTrends.stream()
                 .map(PublicationsMapper.INSTANCE::toPublicationsDTO).collect(Collectors.toList());
