@@ -32,11 +32,10 @@ public class PublicationsDTO implements Serializable {
 
     private Date updated = new Date();
 
-    private Long likes;
-    private List<CommentDTO> comments;
-
     private String nameUser;
+
     private String lastNameUser;
+
     private String photoUser;
 
 }
