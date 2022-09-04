@@ -1,17 +1,18 @@
 package com.uis.publications.service.interfaces;
 
 import com.uis.publications.dto.PublicationsDTO;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import java.util.List;
 
 /**
  * @author Juan David Morantes Vergara
  **/
 public interface IPublicationsService {
-    Page<PublicationsDTO> getTrends(Pageable pageable);
-    Page<PublicationsDTO>getNews(Long id,Pageable pageable);
+    List<PublicationsDTO>  getPublications();
+    List<PublicationsDTO> getNews(Long id);
 
     Boolean createPublication(PublicationsDTO publicationsDTO);
 
     Boolean pullNews(PublicationsDTO publicationsDTO);
+
+
 }

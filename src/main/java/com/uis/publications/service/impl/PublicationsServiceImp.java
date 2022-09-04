@@ -31,24 +31,18 @@ public class PublicationsServiceImp implements IPublicationsService {
     ICommentService commentService;
 
     @Override
-    public Page<PublicationsDTO> getTrends(Pageable pageable) {
-        List<PublicationsDTO> listDTO= getPublications();
-        return createPage(pageable,listDTO);
-    }
-
-    @Override
-    public Page<PublicationsDTO> getNews(Long id_New,Pageable pageable) {
+    public List<PublicationsDTO> getNews(Long idUser) {
         List<PublicationsDTO> listDTOS= getPublications();
         ArrayList<PublicationsDTO> listDTO=new ArrayList<>(listDTOS);
         for(PublicationsDTO newList:listDTO){
-            if(Objects.equals(id_New, newList.getId())){
+            if(!Objects.equals(idUser, newList.getId_user())){
                 listDTOS.remove(newList);
             }
         }
-        return createPage(pageable,listDTOS);
+        return listDTOS;
     }
-
-    private List<PublicationsDTO> getPublications(){
+    @Override
+    public List<PublicationsDTO> getPublications(){
         List<Publication> geTrends =  publicationsRepository.findAll();
         List<PublicationsDTO> listDTO= geTrends.stream()
                 .map(PublicationsMapper.INSTANCE::toPublicationsDTO).collect(Collectors.toList());
@@ -69,14 +63,6 @@ public class PublicationsServiceImp implements IPublicationsService {
 
         return listDTO;
     }
-
-    private Page<PublicationsDTO> createPage(Pageable pageable,List<PublicationsDTO> listDTO) {
-        final int start = (int)pageable.getOffset();
-        final int end = Math.min((start + pageable.getPageSize()), listDTO.size());
-
-        return new PageImpl<>(listDTO.subList(start, end), pageable, listDTO.size());
-    }
-
 
     private void addNumLikes(PublicationsDTO newList, List<LikeDTO> likeDTOS, List<LikeDTO> numLikes){
         for(LikeDTO likeDTO:likeDTOS){
@@ -105,9 +91,9 @@ public class PublicationsServiceImp implements IPublicationsService {
 
     @Override
     public Boolean createPublication(PublicationsDTO publicationsDTO) {
-            Publication publication= PublicationsMapper.INSTANCE.toPublication(publicationsDTO);
-            this.publicationsRepository.save(publication);
-            return true;
+        Publication publication= PublicationsMapper.INSTANCE.toPublication(publicationsDTO);
+        this.publicationsRepository.save(publication);
+        return true;
     }
 
     @Override
