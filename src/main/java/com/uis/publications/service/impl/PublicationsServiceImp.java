@@ -1,5 +1,7 @@
 package com.uis.publications.service.impl;
 
+import com.uis.publications.model.User;
+import com.uis.publications.repository.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -26,6 +28,8 @@ public class PublicationsServiceImp implements IPublicationsService {
     @Autowired
     IPublicationsRepository publicationsRepository;
     @Autowired
+    IUserRepository userRepository;
+    @Autowired
     ILikeService likeService;
     @Autowired
     ICommentService commentService;
@@ -48,6 +52,7 @@ public class PublicationsServiceImp implements IPublicationsService {
                 .map(PublicationsMapper.INSTANCE::toPublicationsDTO).collect(Collectors.toList());
         List<LikeDTO> likeDTOS = likeService.getLikes();
         List<CommentDTO> commentDTOS=commentService.getComments();
+        List<User> users=userRepository.findAll();
         for(PublicationsDTO newList: listDTO){
             List<LikeDTO> numLikes = new ArrayList<>();
 
@@ -58,7 +63,17 @@ public class PublicationsServiceImp implements IPublicationsService {
             if(!comments.isEmpty()){
                 newList.setComments(comments);
             }
+            for(User user:users){
+                if(newList.getId_user().equals(user.getId())){
+                    newList.setNameUser(user.getNames());
+                    newList.setLastNameUser(user.getLastNames());
+                    newList.setPhoto_url(user.getUserPhotoUrl());
+                }
+            }
+
         }
+
+
         listDTO.sort(new ComparePublicationsDTO());
 
         return listDTO;
