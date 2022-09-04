@@ -36,9 +36,22 @@ public class LikeServiceImp implements ILikeService {
     }
     @Override
     public Boolean createLike(LikeDTO likeDTO) {
-     Like like=LikeMapper.INSTANCE.toLike(likeDTO);
-     this.likeRepository.save(like);
-     return true;
+         Like like=LikeMapper.INSTANCE.toLike(likeDTO);
+         List<Like> likes=likeRepository.findAll();
+         boolean create=true;
+         for(Like likeList:likes){
+             if(likeList.getId_user().equals(like.getId_user())){
+                 create=false;
+                 break;
+             }
+         }
+        if(create){
+            this.likeRepository.save(like);
+            return true;
+        }else{
+
+         return false;
+        }
     }
 
     @Override
