@@ -28,8 +28,10 @@ public class LikeServiceImp implements ILikeService {
         List<Like> Likes = likeRepository.findAll();
         int sumLikes=0;
        for(Like like:Likes){
-           if(like.getId_new().equals(idPublication)){
-                sumLikes=sumLikes+1;
+           if(like.getId_comment()==null){
+               if(like.getId_new().equals(idPublication)){
+                    sumLikes=sumLikes+1;
+               }
            }
        }
        return sumLikes;
