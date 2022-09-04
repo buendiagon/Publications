@@ -1,6 +1,7 @@
 package com.uis.publications.controller;
 
 import com.uis.publications.dto.PublicationsDTO;
+import com.uis.publications.model.User;
 import com.uis.publications.service.interfaces.IPublicationsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,8 @@ import java.util.List;
 public class PublicationsController {
     @Autowired
     IPublicationsService publicationsService;
+    @GetMapping("/users")
+    public ResponseEntity<List<User>> getUsers(){return  ResponseEntity.ok((publicationsService.getUsers()));}
 
     @GetMapping("/pagueable")
     public ResponseEntity<List<PublicationsDTO>> getTrends(){ return ResponseEntity.ok(publicationsService.getPublications());}

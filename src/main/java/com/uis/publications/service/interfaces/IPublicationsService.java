@@ -1,6 +1,8 @@
 package com.uis.publications.service.interfaces;
 
 import com.uis.publications.dto.PublicationsDTO;
+import com.uis.publications.model.User;
+
 import java.util.List;
 
 /**
@@ -15,4 +17,5 @@ public interface IPublicationsService {
     Boolean pullNews(PublicationsDTO publicationsDTO);
 
 
+    List<User> getUsers();
 }
