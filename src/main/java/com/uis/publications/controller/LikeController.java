@@ -19,7 +19,7 @@ public class LikeController {
     ILikeService likeService;
 
     @GetMapping("/all")
-    public int getLikesByIdPublication(Long idPublic){
+    public int getLikesByIdPublication(@RequestParam Long idPublic){
         return this.likeService.getLikesByIdPublication(idPublic);
     }
 

@@ -18,7 +18,7 @@ public class CommentController {
     @Autowired
     ICommentService commentService;
     @GetMapping("/all")
-    public ResponseEntity<List<CommentDTO>> getCommentsByIdPublication(Long idPulication){return ResponseEntity.ok(commentService.getCommentsByIdPublication(idPulication));}
+    public ResponseEntity<List<CommentDTO>> getCommentsByIdPublication(@RequestParam Long idPulication){return ResponseEntity.ok(commentService.getCommentsByIdPublication(idPulication));}
 
 
     @PostMapping
