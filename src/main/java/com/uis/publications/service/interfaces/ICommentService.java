@@ -10,7 +10,7 @@ import com.uis.publications.dto.CommentDTO;
 import java.util.List;
 
 public interface ICommentService {
-    List<CommentDTO> getComments();
+    List<CommentDTO> getCommentsByIdPublication(Long idPublication);
 
     CommentDTO createCommnet(CommentDTO commentDTO);
 }
