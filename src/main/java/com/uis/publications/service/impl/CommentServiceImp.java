@@ -24,20 +24,24 @@ public class CommentServiceImp implements ICommentService {
 
     @Override
     public List<CommentDTO> getCommentsByIdPublication(Long idPublication) {
-        List<Comment> geComment =  commentRepository.findAll();
-        List<CommentDTO> gecoments=geComment.stream()
+        List<Comment> geComment = commentRepository.findAll();
+        List<CommentDTO> gecoments = geComment.stream()
                 .map(CommentMapper.INSTANCE::toCommentDTO).collect(Collectors.toList());
-        ArrayList<CommentDTO>listComents=null;
-        for(CommentDTO commentDTO:gecoments){
-            if(commentDTO.getId_parent()==null){
-                for(CommentDTO commentDTO1:gecoments){
-                    if(commentDTO1.getId_parent().equals(commentDTO.getId())){
-                        commentDTO.setReplies(commentDTO1);
+        ArrayList<CommentDTO >listComents = new ArrayList<>();
+        for (CommentDTO commentDTO : gecoments) {
+            if(commentDTO.getId_new().equals(idPublication)) {
+                if (commentDTO.getId_parent() == null) {
+                    for (CommentDTO commentDTO1 : gecoments) {
+                        if (commentDTO1.getId_parent() != null) {
+                            if (commentDTO1.getId_parent().equals(commentDTO.getId())) {
+                                commentDTO.setReplies(commentDTO1);
+                                break;
+                            }
+                        }
                     }
+                    listComents.add(commentDTO);
                 }
-                assert false;
-                listComents.add(commentDTO);
-            }
+           }
         }
         return listComents;
     }
