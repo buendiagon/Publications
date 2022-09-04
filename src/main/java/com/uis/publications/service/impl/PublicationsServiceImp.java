@@ -52,17 +52,9 @@ public class PublicationsServiceImp implements IPublicationsService {
                 .map(PublicationsMapper.INSTANCE::toPublicationsDTO).collect(Collectors.toList());
         List<LikeDTO> likeDTOS = likeService.getLikes();
         List<CommentDTO> commentDTOS=commentService.getComments();
-        List<User> users=userRepository.findAll();
+        List<User> users=getUsers();
         for(PublicationsDTO newList: listDTO){
             List<LikeDTO> numLikes = new ArrayList<>();
-
-            addNumLikes(newList, likeDTOS, numLikes);
-            newList.setLikes((long) numLikes.size());
-            List<CommentDTO> comments = new ArrayList<>();
-            addComments(newList, commentDTOS, comments);
-            if(!comments.isEmpty()){
-                newList.setComments(comments);
-            }
             for(User user:users){
                 if(newList.getId_user().equals(user.getId())){
                     newList.setNameUser(user.getNames());
@@ -70,6 +62,14 @@ public class PublicationsServiceImp implements IPublicationsService {
                     newList.setPhoto_url(user.getUserPhotoUrl());
                 }
             }
+            addNumLikes(newList, likeDTOS, numLikes);
+            newList.setLikes((long) numLikes.size());
+            List<CommentDTO> comments = new ArrayList<>();
+            addComments(newList, commentDTOS, comments);
+            if(!comments.isEmpty()){
+                newList.setComments(comments);
+            }
+
 
         }
 
