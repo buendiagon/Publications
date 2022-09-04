@@ -50,11 +50,8 @@ public class PublicationsServiceImp implements IPublicationsService {
         List<Publication> geTrends =  publicationsRepository.findAll();
         List<PublicationsDTO> listDTO= geTrends.stream()
                 .map(PublicationsMapper.INSTANCE::toPublicationsDTO).collect(Collectors.toList());
-        List<LikeDTO> likeDTOS = likeService.getLikes();
-        List<CommentDTO> commentDTOS=commentService.getComments();
         List<User> users=getUsers();
         for(PublicationsDTO newList: listDTO){
-            List<LikeDTO> numLikes = new ArrayList<>();
             for(User user:users){
                 if(newList.getId_user().equals(user.getId())){
                     newList.setNameUser(user.getNames());
@@ -62,46 +59,9 @@ public class PublicationsServiceImp implements IPublicationsService {
                     newList.setPhotoUser(user.getUserPhotoUrl());
                 }
             }
-            addNumLikes(newList, likeDTOS, numLikes);
-            newList.setLikes((long) numLikes.size());
-            List<CommentDTO> comments = new ArrayList<>();
-            addComments(newList, commentDTOS, comments);
-            if(!comments.isEmpty()){
-                newList.setComments(comments);
-            }
-
-
         }
-
-
         listDTO.sort(new ComparePublicationsDTO());
-
         return listDTO;
-    }
-
-    private void addNumLikes(PublicationsDTO newList, List<LikeDTO> likeDTOS, List<LikeDTO> numLikes){
-        for(LikeDTO likeDTO:likeDTOS){
-            if(Objects.equals(newList.getId(), likeDTO.getId_new())&& likeDTO.getIs_like()){
-                numLikes.add(likeDTO);
-            }
-        }
-    }
-
-    private void addComments(PublicationsDTO newList, List<CommentDTO> commentDTOS, List<CommentDTO> comments){
-        for(CommentDTO commentDTO:commentDTOS){
-            if(commentDTO.getId_parent()==null) {
-                for(CommentDTO commentDTO2:commentDTOS){
-                    if(commentDTO2.getId_parent()!=null) {
-                        if(Objects.equals(commentDTO2.getId_parent(), commentDTO.getId())) {
-                            commentDTO.setReplies(commentDTO2);
-                        }
-                    }
-                }
-                if (Objects.equals(newList.getId(), commentDTO.getId_new())) {
-                    comments.add(commentDTO);
-                }
-            }
-        }
     }
 
     @Override

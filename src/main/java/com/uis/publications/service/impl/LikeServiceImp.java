@@ -1,10 +1,15 @@
 package com.uis.publications.service.impl;
 
 import com.uis.publications.dto.LikeDTO;
+import com.uis.publications.dto.PublicationsDTO;
 import com.uis.publications.mappers.LikeMapper;
+import com.uis.publications.mappers.PublicationsMapper;
 import com.uis.publications.model.Like;
+import com.uis.publications.model.Publication;
 import com.uis.publications.repository.ILikeRepository;
+import com.uis.publications.repository.IPublicationsRepository;
 import com.uis.publications.service.interfaces.ILikeService;
+import com.uis.publications.service.interfaces.IPublicationsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,12 +22,17 @@ import java.util.stream.Collectors;
 public class LikeServiceImp implements ILikeService {
     @Autowired
     ILikeRepository likeRepository;
+
     @Override
-    public List<LikeDTO> getLikes() {
-        List<Like> geLike = likeRepository.findAll();
-        return geLike.stream()
-                .map(LikeMapper.INSTANCE::toLikeDTO).collect(Collectors.toList());
-        
+    public int getLikesByIdPublication(Long idPublication) {
+        List<Like> Likes = likeRepository.findAll();
+        int sumLikes=0;
+       for(Like like:Likes){
+           if(like.getId_new().equals(idPublication)){
+                sumLikes=sumLikes+1;
+           }
+       }
+       return sumLikes;
     }
     @Override
     public Boolean createLike(LikeDTO likeDTO) {

@@ -7,7 +7,7 @@ import java.util.List;
  * @author Juan David Morantes Vergara
  **/
 public interface ILikeService {
-    List<LikeDTO> getLikes();
+    int getLikesByIdPublication(Long idPublication);
 
     Boolean createLike(LikeDTO likeDTO);
 
