@@ -59,7 +59,7 @@ public class PublicationsServiceImp implements IPublicationsService {
                 if(newList.getId_user().equals(user.getId())){
                     newList.setNameUser(user.getNames());
                     newList.setLastNameUser(user.getLastNames());
-                    newList.setPhoto_url(user.getUserPhotoUrl());
+                    newList.setPhotoUser(user.getUserPhotoUrl());
                 }
             }
             addNumLikes(newList, likeDTOS, numLikes);
