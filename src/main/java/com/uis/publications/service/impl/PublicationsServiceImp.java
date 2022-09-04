@@ -1,5 +1,7 @@
 package com.uis.publications.service.impl;
 
+import com.uis.publications.model.User;
+import com.uis.publications.repository.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -26,34 +28,31 @@ public class PublicationsServiceImp implements IPublicationsService {
     @Autowired
     IPublicationsRepository publicationsRepository;
     @Autowired
+    IUserRepository userRepository;
+    @Autowired
     ILikeService likeService;
     @Autowired
     ICommentService commentService;
 
     @Override
-    public Page<PublicationsDTO> getTrends(Pageable pageable) {
-        List<PublicationsDTO> listDTO= getPublications();
-        return createPage(pageable,listDTO);
-    }
-
-    @Override
-    public Page<PublicationsDTO> getNews(Long id_New,Pageable pageable) {
+    public List<PublicationsDTO> getNews(Long idUser) {
         List<PublicationsDTO> listDTOS= getPublications();
         ArrayList<PublicationsDTO> listDTO=new ArrayList<>(listDTOS);
         for(PublicationsDTO newList:listDTO){
-            if(Objects.equals(id_New, newList.getId())){
+            if(!Objects.equals(idUser, newList.getId_user())){
                 listDTOS.remove(newList);
             }
         }
-        return createPage(pageable,listDTOS);
+        return listDTOS;
     }
-
-    private List<PublicationsDTO> getPublications(){
+    @Override
+    public List<PublicationsDTO> getPublications(){
         List<Publication> geTrends =  publicationsRepository.findAll();
         List<PublicationsDTO> listDTO= geTrends.stream()
                 .map(PublicationsMapper.INSTANCE::toPublicationsDTO).collect(Collectors.toList());
         List<LikeDTO> likeDTOS = likeService.getLikes();
         List<CommentDTO> commentDTOS=commentService.getComments();
+        List<User> users=userRepository.findAll();
         for(PublicationsDTO newList: listDTO){
             List<LikeDTO> numLikes = new ArrayList<>();
 
@@ -64,19 +63,21 @@ public class PublicationsServiceImp implements IPublicationsService {
             if(!comments.isEmpty()){
                 newList.setComments(comments);
             }
+            for(User user:users){
+                if(newList.getId_user().equals(user.getId())){
+                    newList.setNameUser(user.getNames());
+                    newList.setLastNameUser(user.getLastNames());
+                    newList.setPhoto_url(user.getUserPhotoUrl());
+                }
+            }
+
         }
+
+
         listDTO.sort(new ComparePublicationsDTO());
 
         return listDTO;
     }
-
-    private Page<PublicationsDTO> createPage(Pageable pageable,List<PublicationsDTO> listDTO) {
-        final int start = (int)pageable.getOffset();
-        final int end = Math.min((start + pageable.getPageSize()), listDTO.size());
-
-        return new PageImpl<>(listDTO.subList(start, end), pageable, listDTO.size());
-    }
-
 
     private void addNumLikes(PublicationsDTO newList, List<LikeDTO> likeDTOS, List<LikeDTO> numLikes){
         for(LikeDTO likeDTO:likeDTOS){
@@ -105,9 +106,9 @@ public class PublicationsServiceImp implements IPublicationsService {
 
     @Override
     public Boolean createPublication(PublicationsDTO publicationsDTO) {
-            Publication publication= PublicationsMapper.INSTANCE.toPublication(publicationsDTO);
-            this.publicationsRepository.save(publication);
-            return true;
+        Publication publication= PublicationsMapper.INSTANCE.toPublication(publicationsDTO);
+        this.publicationsRepository.save(publication);
+        return true;
     }
 
     @Override

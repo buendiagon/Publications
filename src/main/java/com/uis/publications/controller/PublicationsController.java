@@ -3,12 +3,11 @@ package com.uis.publications.controller;
 import com.uis.publications.dto.PublicationsDTO;
 import com.uis.publications.service.interfaces.IPublicationsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * @author Daniel Adrian Gonzalez Buendia
@@ -21,10 +20,10 @@ public class PublicationsController {
     IPublicationsService publicationsService;
 
     @GetMapping("/pagueable")
-    public ResponseEntity<Page<PublicationsDTO>> getTrends(Pageable pageable){ return ResponseEntity.ok(publicationsService.getTrends(pageable));}
+    public ResponseEntity<List<PublicationsDTO>> getTrends(){ return ResponseEntity.ok(publicationsService.getPublications());}
 
     @GetMapping("/pagueableById")
-    public ResponseEntity<Page<PublicationsDTO>> getNews(@RequestParam Long id,Pageable pageable){return ResponseEntity.ok(this.publicationsService.getNews(id,pageable));}
+    public ResponseEntity<List<PublicationsDTO>> getNews(@RequestParam Long idUser){return ResponseEntity.ok(this.publicationsService.getNews(idUser));}
 
     @PostMapping
     public ResponseEntity<Boolean> createPublication(@Valid @RequestBody PublicationsDTO publicationsDTO){
