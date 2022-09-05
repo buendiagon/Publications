@@ -2,13 +2,9 @@ package com.uis.publications.service.impl;
 
 import com.uis.publications.model.User;
 import com.uis.publications.repository.IUserRepository;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
 
-import com.uis.publications.dto.CommentDTO;
-import com.uis.publications.dto.LikeDTO;
 import com.uis.publications.dto.PublicationsDTO;
 import com.uis.publications.mappers.PublicationsMapper;
 import com.uis.publications.model.Publication;
@@ -18,6 +14,8 @@ import com.uis.publications.service.interfaces.ILikeService;
 import com.uis.publications.service.interfaces.IPublicationsService;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 /**
@@ -45,6 +43,7 @@ public class PublicationsServiceImp implements IPublicationsService {
         }
         return listDTOS;
     }
+    @SneakyThrows
     @Override
     public List<PublicationsDTO> getPublications(){
         List<Publication> geTrends =  publicationsRepository.findAll();
@@ -52,6 +51,9 @@ public class PublicationsServiceImp implements IPublicationsService {
                 .map(PublicationsMapper.INSTANCE::toPublicationsDTO).collect(Collectors.toList());
         List<User> users=getUsers();
         for(PublicationsDTO newList: listDTO){
+            changeDate(newList);
+
+
             for(User user:users){
                 if(newList.getId_user().equals(user.getId())){
                     newList.setNameUser(user.getNames());
@@ -81,6 +83,18 @@ public class PublicationsServiceImp implements IPublicationsService {
     @Override
     public List<User> getUsers() {
         return userRepository.findAll();
+    }
+
+    public void changeDate(PublicationsDTO publicationsDTO) throws ParseException {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
+        Date updated= publicationsDTO.getUpdated();
+        Date created= publicationsDTO.getCreated();
+        String updatedGood= formatter.format(updated);
+        String createdGood=formatter.format(created);
+
+        publicationsDTO.setCreated(formatter.parse(createdGood));
+        publicationsDTO.setUpdated(formatter.parse(updatedGood));
+
     }
 
 }
