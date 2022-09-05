@@ -20,12 +20,10 @@ public class PublicationsController {
     @Autowired
     IPublicationsService publicationsService;
     @GetMapping("/users")
-    public ResponseEntity<List<User>> getUsers(){return ResponseEntity.ok((publicationsService.getUsers()));}
+    public ResponseEntity<List<User>> getUsers(){return  ResponseEntity.ok((publicationsService.getUsers()));}
 
     @GetMapping("/pagueable")
-    public ResponseEntity<List<PublicationsDTO>> getTrends(){
-        List<PublicationsDTO> list=publicationsService.getPublications();
-        return ResponseEntity.ok(list);}
+    public ResponseEntity<List<PublicationsDTO>> getTrends(){ return ResponseEntity.ok(publicationsService.getPublications());}
 
     @GetMapping("/pagueableById")
     public ResponseEntity<List<PublicationsDTO>> getNews(@RequestParam Long idUser){return ResponseEntity.ok(this.publicationsService.getNews(idUser));}
