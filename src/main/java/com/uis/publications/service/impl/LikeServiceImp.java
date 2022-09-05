@@ -47,9 +47,11 @@ public class LikeServiceImp implements ILikeService {
          List<Like> likes=likeRepository.findAll();
          boolean create=true;
          for(Like likeList:likes){
-             if(likeList.getId_user().equals(like.getId_user())){
-                 create=false;
-                 break;
+             if(likeDTO.getId_new().equals(likeList.getId_new())){
+                 if(likeList.getId_user().equals(like.getId_user())){
+                     create=false;
+                     break;
+                 }
              }
          }
         if(create){
@@ -64,14 +66,15 @@ public class LikeServiceImp implements ILikeService {
     @Override
     public Boolean deleteLikeByLikeDTO(Long idPublicacion, Long idUser) {
         List<Like> likes=likeRepository.findAll();
-
+        boolean isOk=false;
         for(Like like:likes){
             if(idUser.equals(like.getId_user()) && idPublicacion.equals(like.getId_new())){
                 this.likeRepository.deleteById(like.getId());
+                isOk=true;
                 break;
             }
         }
-        return true;
+        return isOk;
     }
 
 }
