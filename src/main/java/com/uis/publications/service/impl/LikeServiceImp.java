@@ -50,7 +50,6 @@ public class LikeServiceImp implements ILikeService {
              if(likeDTO.getId_new().equals(likeList.getId_new())){
                  if(likeList.getId_user().equals(like.getId_user())){
                      create=false;
-                     break;
                  }
              }
          }
