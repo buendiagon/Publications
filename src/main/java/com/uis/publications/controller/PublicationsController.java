@@ -1,5 +1,6 @@
 package com.uis.publications.controller;
 
+import com.uis.publications.dto.LikeDTO;
 import com.uis.publications.dto.PublicationsDTO;
 import com.uis.publications.model.User;
 import com.uis.publications.service.interfaces.IPublicationsService;
@@ -36,4 +37,9 @@ public class PublicationsController {
 
     @PutMapping
     public ResponseEntity<Boolean> pullNews(@Valid @RequestBody PublicationsDTO publicationsDTO){ return ResponseEntity.ok(this.publicationsService.pullNews(publicationsDTO));}
+
+    @DeleteMapping
+    public ResponseEntity<Boolean> deletePublicationById(@RequestParam Long idPublications){
+        return ResponseEntity.ok(this.publicationsService.deletePublicationById(idPublications));
+    }
 }
