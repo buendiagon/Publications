@@ -7,8 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.lang.reflect.Method;
-import java.util.List;
+
 /**
  * @author Juan David Morantes Vergara
  **/
@@ -30,8 +29,8 @@ public class LikeController {
     }
 
     @DeleteMapping
-    public ResponseEntity<Boolean> deleteLikeById(@RequestParam Long id){
-        return ResponseEntity.ok(this.likeService.deleLikeById(id));
+    public ResponseEntity<Boolean> deleteLikeById(@RequestParam LikeDTO likeDTO){
+        return ResponseEntity.ok(this.likeService.deleteLikeByLikeDTO(likeDTO));
     }
 
 
