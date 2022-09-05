@@ -29,8 +29,8 @@ public class LikeController {
     }
 
     @DeleteMapping("/deleteLike")
-    public ResponseEntity<Boolean> deleteLikeById(@RequestParam LikeDTO likeDTO){
-        return ResponseEntity.ok(this.likeService.deleteLikeByLikeDTO(likeDTO));
+    public ResponseEntity<Boolean> deleteLikeById(@RequestParam Long idPublicacion, @RequestParam Long idUser){
+        return ResponseEntity.ok(this.likeService.deleteLikeByLikeDTO(idPublicacion,idUser));
     }
 
 

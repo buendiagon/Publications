@@ -62,11 +62,11 @@ public class LikeServiceImp implements ILikeService {
     }
 
     @Override
-    public Boolean deleteLikeByLikeDTO(LikeDTO likeDTO) {
+    public Boolean deleteLikeByLikeDTO(Long idPublicacion, Long idUser) {
         List<Like> likes=likeRepository.findAll();
 
         for(Like like:likes){
-            if(likeDTO.getId_user().equals(like.getId_user())){
+            if(idUser.equals(like.getId_user()) && idPublicacion.equals(like.getId_new())){
                 this.likeRepository.deleteById(like.getId());
                 break;
             }

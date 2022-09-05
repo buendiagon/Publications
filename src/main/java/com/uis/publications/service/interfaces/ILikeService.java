@@ -10,7 +10,7 @@ public interface ILikeService {
 
     Boolean createLike(LikeDTO likeDTO);
 
-    Boolean deleteLikeByLikeDTO(LikeDTO likeDTO);
+    Boolean deleteLikeByLikeDTO(Long idPublicacion, Long idUser);
 
 
     /*    Long getLikesPub(Long id);*/
