@@ -18,4 +18,6 @@ public interface IPublicationsService {
 
 
     List<User> getUsers();
+
+    Boolean deletePublicationById(Long idPublications);
 }

@@ -1,20 +1,17 @@
 package com.uis.publications.service.impl;
 
+import com.uis.publications.model.Comment;
+import com.uis.publications.model.Like;
 import com.uis.publications.model.User;
+import com.uis.publications.repository.ICommentRepository;
+import com.uis.publications.repository.ILikeRepository;
 import com.uis.publications.repository.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
 
-import com.uis.publications.dto.CommentDTO;
-import com.uis.publications.dto.LikeDTO;
 import com.uis.publications.dto.PublicationsDTO;
 import com.uis.publications.mappers.PublicationsMapper;
 import com.uis.publications.model.Publication;
 import com.uis.publications.repository.IPublicationsRepository;
-import com.uis.publications.service.interfaces.ICommentService;
-import com.uis.publications.service.interfaces.ILikeService;
 import com.uis.publications.service.interfaces.IPublicationsService;
 import org.springframework.stereotype.Service;
 
@@ -30,9 +27,9 @@ public class PublicationsServiceImp implements IPublicationsService {
     @Autowired
     IUserRepository userRepository;
     @Autowired
-    ILikeService likeService;
+    ILikeRepository likeRepository;
     @Autowired
-    ICommentService commentService;
+    ICommentRepository commentRepository;
 
     @Override
     public List<PublicationsDTO> getNews(Long idUser) {
@@ -81,6 +78,31 @@ public class PublicationsServiceImp implements IPublicationsService {
     @Override
     public List<User> getUsers() {
         return userRepository.findAll();
+    }
+
+    @Override
+    public Boolean deletePublicationById(Long idPublications) {
+        List<Comment>comments=commentRepository.findAll();
+        List<Like> likes=likeRepository.findAll();
+        List<Publication>publications=publicationsRepository.findAll();
+        for (Publication publication:publications){
+            if(publication.getId().equals(idPublications)){
+                for(Comment comment:comments){
+                    if(publication.getId().equals(comment.getId_new())){
+                        for(Like like:likes){
+                            if(like.getId_comment()!=null) {
+                                if (like.getId_comment().equals(comment.getId())) {
+                                    this.likeRepository.deleteById(like.getId());
+                                }
+                            }
+                        }
+                        this.commentRepository.deleteById(comment.getId());
+                    }
+                }
+                this.publicationsRepository.deleteById(publication.getId());
+            }
+        }
+        return true;
     }
 
 }
