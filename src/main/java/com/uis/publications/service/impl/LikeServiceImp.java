@@ -6,8 +6,10 @@ import com.uis.publications.mappers.LikeMapper;
 import com.uis.publications.mappers.PublicationsMapper;
 import com.uis.publications.model.Like;
 import com.uis.publications.model.Publication;
+import com.uis.publications.model.User;
 import com.uis.publications.repository.ILikeRepository;
 import com.uis.publications.repository.IPublicationsRepository;
+import com.uis.publications.repository.IUserRepository;
 import com.uis.publications.service.interfaces.ILikeService;
 import com.uis.publications.service.interfaces.IPublicationsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,9 @@ import java.util.stream.Collectors;
 public class LikeServiceImp implements ILikeService {
     @Autowired
     ILikeRepository likeRepository;
+
+    @Autowired
+    IUserRepository userRepository;
 
     @Override
     public int getLikesByIdPublication(Long idPublication) {
@@ -57,12 +62,16 @@ public class LikeServiceImp implements ILikeService {
     }
 
     @Override
-    public Boolean deleLikeById(Long id) {
-        if(this.likeRepository.existsById(id)){
-            this.likeRepository.deleteById(id);
-            return true;
+    public Boolean deleteLikeByLikeDTO(LikeDTO likeDTO) {
+        List<Like> likes=likeRepository.findAll();
+
+        for(Like like:likes){
+            if(likeDTO.getId_user().equals(like.getId_user())){
+                this.likeRepository.deleteById(like.getId());
+                break;
+            }
         }
-        return false;
+        return true;
     }
 
 }
