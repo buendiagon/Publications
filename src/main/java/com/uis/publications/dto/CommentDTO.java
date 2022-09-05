@@ -25,5 +25,6 @@ public class CommentDTO implements Serializable {
     private String description;
     private Date created=new Date();
     private Date updated = new Date();
+
     private CommentDTO replies=null;
 }
