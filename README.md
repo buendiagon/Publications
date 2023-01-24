@@ -1,2 +1,2 @@
 # Publications
-K pop social publications
+Publication Campus Link
