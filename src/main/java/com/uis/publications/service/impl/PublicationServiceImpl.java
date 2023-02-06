@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -32,7 +33,7 @@ public class PublicationServiceImpl implements IPublicationService {
             Pageable paging = PageRequest.of(page, size);
 
             Page<Publication> pageTuts;
-            pageTuts = publicationRepository.findAll(paging);
+            pageTuts = publicationRepository.findAll(PageRequest.of(page, size, Sort.by("score").descending()));
             publicationList = pageTuts.getContent();
             Map<String, Object> response = new HashMap<>();
             response.put("publications", publicationList);
