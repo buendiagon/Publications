@@ -1,45 +1,35 @@
 package com.uis.publications.controller;
 
-import com.uis.publications.dto.LikeDTO;
-import com.uis.publications.dto.PublicationsDTO;
-import com.uis.publications.model.User;
-import com.uis.publications.service.interfaces.IPublicationsService;
+import com.uis.publications.service.interfaces.IPublicationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-import java.util.List;
+import java.util.Map;
 
 /**
- * @author Daniel Adrian Gonzalez Buendia
- * @author Juan David Morantes Vergara
- **/
+ * @autor Juan David Morantes Vergara
+ */
 @RestController
-@RequestMapping("/api/news")
+@RequestMapping("/api/publications")
 public class PublicationsController {
+
+    private IPublicationService publicationService;
     @Autowired
-    IPublicationsService publicationsService;
-    @GetMapping("/users")
-    public ResponseEntity<List<User>> getUsers(){return  ResponseEntity.ok((publicationsService.getUsers()));}
-
-    @GetMapping("/pagueable")
-    public ResponseEntity<List<PublicationsDTO>> getTrends(){ return ResponseEntity.ok(publicationsService.getPublications());}
-
-    @GetMapping("/pagueableById")
-    public ResponseEntity<List<PublicationsDTO>> getNews(@RequestParam Long idUser){return ResponseEntity.ok(this.publicationsService.getNews(idUser));}
-
-    @PostMapping
-    public ResponseEntity<Boolean> createPublication(@Valid @RequestBody PublicationsDTO publicationsDTO){
-        Boolean isOk = publicationsService.createPublication(publicationsDTO);
-        return ResponseEntity.ok(isOk);
+    @Qualifier("publicationServiceImpl")
+    public void setPublicationService(IPublicationService publicationService) {
+        this.publicationService = publicationService;
     }
-
-    @PutMapping
-    public ResponseEntity<Boolean> pullNews(@Valid @RequestBody PublicationsDTO publicationsDTO){ return ResponseEntity.ok(this.publicationsService.pullNews(publicationsDTO));}
-
-    @DeleteMapping
-    public ResponseEntity<Boolean> deletePublicationById(@RequestParam Long idPublications){
-        return ResponseEntity.ok(this.publicationsService.deletePublicationById(idPublications));
+    @GetMapping
+    public ResponseEntity<Map<String,Object>> getPublications(@RequestParam(defaultValue = "0") int page,
+                                                              @RequestParam(defaultValue = "3") int size){
+        return ResponseEntity.ok(publicationService.getPublications(page,size));
     }
-}
+    @GetMapping("/id_career")
+    public ResponseEntity<Map<String,Object>> getPublicationsByCareer(@RequestParam Long id_career,
+                                                                      @RequestParam(defaultValue = "0") int page,
+                                                                      @RequestParam(defaultValue = "3") int size){
+        return ResponseEntity.ok(publicationService.getPublicationsByCareer(page, size, id_career));
+    }
+ }

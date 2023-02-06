@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.uis</groupId>
-    <artifactId>publications</artifactId>
+    <artifactId>Authorization</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>publications</name>
-    <description>publications</description>
+    <name>Authorization</name>
+    <description>Authorization</description>
     <properties>
         <org.projectlombok.version>1.18.12</org.projectlombok.version>
         <org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
@@ -73,20 +73,14 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.jetbrains</groupId>
-            <artifactId>annotations</artifactId>
-            <version>RELEASE</version>
-            <scope>compile</scope>
-        </dependency>
     </dependencies>
 
     <build>
         <plugins>
-                <plugin>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-maven-plugin</artifactId>
-                </plugin>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
         </plugins>
     </build>
 
