@@ -1,2 +1,2 @@
 # Publications
-Publication Campus Link
+Input Campus Link

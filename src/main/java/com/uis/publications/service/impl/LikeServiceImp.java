@@ -1,22 +1,16 @@
 package com.uis.publications.service.impl;
 
 import com.uis.publications.dto.LikeDTO;
-import com.uis.publications.dto.PublicationsDTO;
 import com.uis.publications.mappers.LikeMapper;
-import com.uis.publications.mappers.PublicationsMapper;
 import com.uis.publications.model.Like;
-import com.uis.publications.model.Publication;
-import com.uis.publications.model.User;
 import com.uis.publications.repository.ILikeRepository;
-import com.uis.publications.repository.IPublicationsRepository;
 import com.uis.publications.repository.IUserRepository;
 import com.uis.publications.service.interfaces.ILikeService;
-import com.uis.publications.service.interfaces.IPublicationsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
+
 /**
  * @author Juan David Morantes Vergara
  **/

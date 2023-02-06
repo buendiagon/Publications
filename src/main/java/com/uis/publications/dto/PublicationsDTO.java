@@ -6,36 +6,23 @@ import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
 
 /**
- * @author Juan David Morantes Vergara
- **/
+ * @autor Juan David Morantes Vergara
+ */
 @Getter
 @Setter
 @NoArgsConstructor
 public class PublicationsDTO implements Serializable {
-
-    private static final long serialVersionUID = 8846700335219967805L;
+    private static final long serialVersionUID = 8297601744673871354L;
     private Long id;
-
-    private Long id_user;
-
-    private String title;
-
+    private Long id_parent;
+    @NotNull
+    private Long id_career;
+    @NotNull
+    private Long score;
+    @NotNull
     private String description;
-
-    private String photo_url;
-
-    private Date created=new Date();
-
-    private Date updated = new Date();
-
-    private String nameUser;
-
-    private String lastNameUser;
-
-    private String photoUser;
-
+    @NotNull
+    private Boolean is_question;
 }
