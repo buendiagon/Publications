@@ -15,4 +15,9 @@ public interface IPublicationRepository extends JpaRepository<Input,Long> {
 
     @Query("FROM Input i WHERE i.is_question = :i")
     Page<Input> findAllQuestions(Pageable pageable,Boolean i);
+
+    @Query("FROM Input i WHERE i.id_career = :i")
+    Page<Input> findAllQuestionsByCareer(Pageable pageable,Long i);
+
+
 }

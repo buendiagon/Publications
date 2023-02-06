@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.Null;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -23,7 +24,7 @@ public class Input implements Serializable {
     @Column(name = "id_parent")
     private String id_parent;
     @Column(name = "id_career", nullable = false)
-    private String id_career;
+    private Long id_career;
     @Column(name = "score", nullable = false)
     private Long score;
     @Column(name = "description", nullable = false)
@@ -35,8 +36,10 @@ public class Input implements Serializable {
     @Column(name = "created")
     @Temporal(TemporalType.DATE)
     private Date created = new Date();
-
+    @Column(name = "title", nullable = false)
+    private String title;
     @Column(name = "updated")
     @Temporal(TemporalType.DATE)
     private Date updated = new Date();
+
 }
