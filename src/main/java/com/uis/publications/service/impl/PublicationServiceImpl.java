@@ -1,7 +1,7 @@
 package com.uis.publications.service.impl;
 
 import com.uis.publications.exception.TransactionException;
-import com.uis.publications.model.Publication;
+import com.uis.publications.model.Input;
 import com.uis.publications.repository.IPublicationRepository;
 import com.uis.publications.service.interfaces.IPublicationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +11,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,14 +28,13 @@ public class PublicationServiceImpl implements IPublicationService {
     }
     public Map<String, Object> getPublications(int page, int size){
         try {
-            List<Publication> publicationList;
-            Pageable paging = PageRequest.of(page, size);
-
-            Page<Publication> pageTuts;
-            pageTuts = publicationRepository.findAll(PageRequest.of(page, size, Sort.by("score").descending()));
-            publicationList = pageTuts.getContent();
+            List<Input> inputList;
+            Pageable paging = PageRequest.of(page, size, Sort.by("score").descending());
+            Page<Input> pageTuts;
+            pageTuts = publicationRepository.findAllQuestions(paging,true);
+            inputList = pageTuts.getContent();
             Map<String, Object> response = new HashMap<>();
-            response.put("publications", publicationList);
+            response.put("publications", inputList);
             response.put("currentPage", pageTuts.getNumber());
             response.put("totalItems", pageTuts.getTotalElements());
             response.put("totalPages", pageTuts.getTotalPages());
@@ -45,7 +43,6 @@ public class PublicationServiceImpl implements IPublicationService {
         }catch (Exception e) {
             throw new TransactionException("INTERNAL PROBLEM");
         }
-
     }
 
 }

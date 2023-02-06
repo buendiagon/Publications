@@ -19,9 +19,8 @@ public class PublicationsController {
     @Autowired
     private IPublicationService publicationService;
     @GetMapping
-    public Map<String,Object> getPublications(@RequestParam(defaultValue = "0") int page,
+    public ResponseEntity<Map<String,Object>> getPublications(@RequestParam(defaultValue = "0") int page,
                                                               @RequestParam(defaultValue = "3") int size){
-        Map<String,Object> r=publicationService.getPublications(page,size);
-        return r;
+        return ResponseEntity.ok(publicationService.getPublications(page,size));
     }
 }

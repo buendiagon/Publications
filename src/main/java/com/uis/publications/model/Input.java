@@ -1,9 +1,7 @@
 package com.uis.publications.model;
 
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -16,7 +14,7 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @Table(schema = "campuslink", name = "input")
-public class Publication implements Serializable {
+public class Input implements Serializable {
     private static final long serialVersionUID = -5315725790726268470L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,7 +29,7 @@ public class Publication implements Serializable {
     @Column(name = "description", nullable = false)
     private String description;
     @Column(name = "is_question", nullable = false)
-    private String is_question;
+    private Boolean is_question;
     @Column(name = "id_user", nullable = false)
     private String id_user;
     @Column(name = "created")
