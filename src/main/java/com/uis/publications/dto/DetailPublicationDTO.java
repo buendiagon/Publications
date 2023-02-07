@@ -31,4 +31,5 @@ public class DetailPublicationDTO implements Serializable {
     private Boolean is_question;
     private String title;
     private List<Input_comments> commentsList;
+    private List<DetailPublicationDTO> responseslist;
 }

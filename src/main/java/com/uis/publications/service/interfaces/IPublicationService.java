@@ -20,4 +20,6 @@ public interface IPublicationService {
     List<InputDTO> getDataUser(List<Input> inputList);
 
     DetailPublicationDTO getDetailPublication(Long id_publication);
+
+    List<DetailPublicationDTO> ResponsesInputs(Long id_publication);
 }

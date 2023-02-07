@@ -25,8 +25,6 @@ public class Input implements Serializable {
     private Long id_parent;
     @Column(name = "id_career", nullable = false)
     private Long id_career;
-    @Column(name = "score", nullable = false)
-    private Long score;
     @Column(name = "description", nullable = false)
     private String description;
     @Column(name = "is_question", nullable = false)
