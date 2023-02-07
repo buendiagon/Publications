@@ -27,14 +27,14 @@ public class PublicationsController {
                                                               @RequestParam(defaultValue = "3") int size){
         return ResponseEntity.ok(publicationService.getPublications(page,size));
     }
-    @GetMapping("/id_career")
-    public ResponseEntity<Map<String,Object>> getPublicationsByCareer(@RequestParam Long id_career,
+    @GetMapping("/id_career/{id}")
+    public ResponseEntity<Map<String,Object>> getPublicationsByCareer(@PathVariable Long id,
                                                                       @RequestParam(defaultValue = "0") int page,
                                                                       @RequestParam(defaultValue = "3") int size){
-        return ResponseEntity.ok(publicationService.getPublicationsByCareer(page, size, id_career));
+        return ResponseEntity.ok(publicationService.getPublicationsByCareer(page, size, id));
     }
-    @GetMapping("/id_publication")
-    public ResponseEntity<DetailPublicationDTO> getDetailPublication(@RequestParam Long id_publication){
-        return ResponseEntity.ok(publicationService.getDetailPublication(id_publication));
+    @GetMapping("/id_publication/{id}")
+    public ResponseEntity<DetailPublicationDTO> getDetailPublication(@PathVariable Long id){
+        return ResponseEntity.ok(publicationService.getDetailPublication(id));
     }
  }
