@@ -22,7 +22,7 @@ public class Input implements Serializable {
     @Column(name = "id", nullable = false)
     private Long id;
     @Column(name = "id_parent")
-    private String id_parent;
+    private Long id_parent;
     @Column(name = "id_career", nullable = false)
     private Long id_career;
     @Column(name = "score", nullable = false)
@@ -36,7 +36,7 @@ public class Input implements Serializable {
     @Column(name = "created")
     @Temporal(TemporalType.DATE)
     private Date created = new Date();
-    @Column(name = "title", nullable = false)
+    @Column(name = "title")
     private String title;
     @Column(name = "updated")
     @Temporal(TemporalType.DATE)

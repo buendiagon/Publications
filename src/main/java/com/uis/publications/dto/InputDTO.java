@@ -28,6 +28,5 @@ public class InputDTO implements Serializable {
     private String description;
     @NotNull
     private Boolean is_question;
-    @NotNull
     private String title;
 }
