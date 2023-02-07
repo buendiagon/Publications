@@ -1,7 +1,9 @@
 package com.uis.publications.controller;
 
+import com.uis.publications.dto.CommentDTO;
 import com.uis.publications.dto.DetailPublicationDTO;
 import com.uis.publications.dto.PublicationDTO;
+import com.uis.publications.model.Input_comments;
 import com.uis.publications.service.interfaces.IPublicationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -42,5 +44,9 @@ public class PublicationsController {
     @PostMapping
     public ResponseEntity<Boolean> createPublication(@Valid @RequestBody PublicationDTO publicationsDTO){
         return ResponseEntity.ok(publicationService.createPublication(publicationsDTO));
+    }
+    @PostMapping("/comments")
+    public ResponseEntity<Boolean> createComment(@Valid @RequestBody CommentDTO comments){
+        return ResponseEntity.ok(publicationService.createComment(comments));
     }
  }

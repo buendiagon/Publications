@@ -1,10 +1,12 @@
 package com.uis.publications.service.impl;
 
+import com.uis.publications.dto.CommentDTO;
 import com.uis.publications.dto.DetailPublicationDTO;
 import com.uis.publications.dto.InputDTO;
 import com.uis.publications.dto.PublicationDTO;
 import com.uis.publications.exception.DataNotFoundException;
 import com.uis.publications.exception.TransactionException;
+import com.uis.publications.mappers.CommentMapper;
 import com.uis.publications.mappers.DetailPublicationMapper;
 import com.uis.publications.mappers.InputMapper;
 import com.uis.publications.model.Input;
@@ -153,6 +155,13 @@ public class PublicationServiceImpl implements IPublicationService {
     public Boolean createPublication(PublicationDTO publicationDTO) {
         Input input = InputMapper.INSTANCE.toInput(publicationDTO);
         this.publicationRepository.save(input);
+        return true;
+    }
+
+    @Override
+    public Boolean createComment(CommentDTO comment) {
+        Input_comments comments= CommentMapper.INSTANCE.toComment(comment);
+        this.commentRepository.save(comments);
         return true;
     }
 

@@ -1,10 +1,11 @@
 package com.uis.publications.service.interfaces;
 
+
+import com.uis.publications.dto.CommentDTO;
 import com.uis.publications.dto.DetailPublicationDTO;
 import com.uis.publications.dto.InputDTO;
 import com.uis.publications.dto.PublicationDTO;
 import com.uis.publications.model.Input;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,4 +26,6 @@ public interface IPublicationService {
     List<DetailPublicationDTO> ResponsesInputs(Long id_publication);
 
     Boolean createPublication(PublicationDTO publicationDTO);
+
+    Boolean createComment(CommentDTO comments);
 }
