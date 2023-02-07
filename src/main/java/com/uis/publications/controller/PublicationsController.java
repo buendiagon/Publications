@@ -1,5 +1,6 @@
 package com.uis.publications.controller;
 
+import com.uis.publications.dto.DetailPublicationDTO;
 import com.uis.publications.service.interfaces.IPublicationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -31,5 +32,9 @@ public class PublicationsController {
                                                                       @RequestParam(defaultValue = "0") int page,
                                                                       @RequestParam(defaultValue = "3") int size){
         return ResponseEntity.ok(publicationService.getPublicationsByCareer(page, size, id_career));
+    }
+    @GetMapping("/id_publication")
+    public ResponseEntity<DetailPublicationDTO> getDetailPublication(@RequestParam Long id_publication){
+        return ResponseEntity.ok(publicationService.getDetailPublication(id_publication));
     }
  }

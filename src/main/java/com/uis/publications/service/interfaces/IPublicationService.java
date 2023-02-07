@@ -1,5 +1,6 @@
 package com.uis.publications.service.interfaces;
 
+import com.uis.publications.dto.DetailPublicationDTO;
 import com.uis.publications.dto.InputDTO;
 import com.uis.publications.model.Input;
 import org.springframework.http.ResponseEntity;
@@ -17,4 +18,6 @@ public interface IPublicationService {
     Map<String, Object> getPublicationsByCareer(int page, int size,Long id);
 
     List<InputDTO> getDataUser(List<Input> inputList);
+
+    DetailPublicationDTO getDetailPublication(Long id_publication);
 }
