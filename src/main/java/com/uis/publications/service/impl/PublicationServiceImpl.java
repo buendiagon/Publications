@@ -1,10 +1,15 @@
 package com.uis.publications.service.impl;
 
+import com.uis.publications.dto.DetailPublicationDTO;
 import com.uis.publications.dto.InputDTO;
+import com.uis.publications.exception.DataNotFoundException;
 import com.uis.publications.exception.TransactionException;
+import com.uis.publications.mappers.DetailPublicationMapper;
 import com.uis.publications.mappers.InputMapper;
 import com.uis.publications.model.Input;
+import com.uis.publications.model.Input_comments;
 import com.uis.publications.model.User;
+import com.uis.publications.repository.ICommentRepository;
 import com.uis.publications.repository.IPublicationRepository;
 import com.uis.publications.repository.IUserRepository;
 import com.uis.publications.service.interfaces.IPublicationService;
@@ -15,6 +20,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import javax.xml.stream.events.Comment;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,10 +31,15 @@ import java.util.Map;
  */
 @Service
 public class PublicationServiceImpl implements IPublicationService {
+    private ICommentRepository commentRepository;
+    @Autowired
+    public void seCommentRepository(ICommentRepository commentRepository) {
+        this.commentRepository= commentRepository;
+    }
 
     private IPublicationRepository publicationRepository;
     @Autowired
-    public void setv(IPublicationRepository publicationRepository) {
+    public void setPublicationRepository(IPublicationRepository publicationRepository) {
         this.publicationRepository= publicationRepository;
     }
 
@@ -92,5 +103,23 @@ public class PublicationServiceImpl implements IPublicationService {
             inputDTOS.add(inputDTO);
         }
         return inputDTOS;
+    }
+
+
+    @Override
+    public DetailPublicationDTO getDetailPublication(Long id_publication) {
+        Input input=publicationRepository.findById(id_publication)
+                .orElseThrow((() -> new DataNotFoundException("Publication dont exist")));
+        DetailPublicationDTO detailPublicationDTO = DetailPublicationMapper.INSTANCE.toDetailPublicationDTO(input);
+        detailPublicationDTO.setCommentsList(null);
+        List<Input_comments> comment= commentRepository.findByIdInput(id_publication);
+        if(!comment.isEmpty()){
+            detailPublicationDTO.setCommentsList(comment);
+        }
+        User user = userRepository.findById(detailPublicationDTO.getId_user())
+                .orElseThrow((() -> new DataNotFoundException("User of this publication dont exist")));
+        detailPublicationDTO.setUsername(user.getUsername());
+        detailPublicationDTO.setPhoto_user(user.getUserPhotoUrl());
+        return detailPublicationDTO;
     }
 }
