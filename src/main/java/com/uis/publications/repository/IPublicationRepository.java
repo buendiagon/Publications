@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * @autor Juan David Morantes Vergara
  */
@@ -18,6 +20,9 @@ public interface IPublicationRepository extends JpaRepository<Input,Long> {
 
     @Query("FROM Input i WHERE i.id_career = :i and i.is_question = true")
     Page<Input> findAllQuestionsByCareer(Pageable pageable,Long i);
+
+    @Query("FROM Input i WHERE i.is_question = false and i.id_parent=:i")
+    List<Input> findAllResponses(Long i);
 
 
 }

@@ -8,9 +8,11 @@ import com.uis.publications.mappers.DetailPublicationMapper;
 import com.uis.publications.mappers.InputMapper;
 import com.uis.publications.model.Input;
 import com.uis.publications.model.Input_comments;
+import com.uis.publications.model.Score;
 import com.uis.publications.model.User;
 import com.uis.publications.repository.ICommentRepository;
 import com.uis.publications.repository.IPublicationRepository;
+import com.uis.publications.repository.IScoreRepository;
 import com.uis.publications.repository.IUserRepository;
 import com.uis.publications.service.interfaces.IPublicationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +22,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import javax.xml.stream.events.Comment;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -31,9 +32,14 @@ import java.util.Map;
  */
 @Service
 public class PublicationServiceImpl implements IPublicationService {
+    private IScoreRepository scoreRepository;
+    @Autowired
+    public void setScoreRepository(IScoreRepository scoreRepository) {
+        this.scoreRepository= scoreRepository;
+    }
     private ICommentRepository commentRepository;
     @Autowired
-    public void seCommentRepository(ICommentRepository commentRepository) {
+    public void setCommentRepository(ICommentRepository commentRepository) {
         this.commentRepository= commentRepository;
     }
 
@@ -42,8 +48,6 @@ public class PublicationServiceImpl implements IPublicationService {
     public void setPublicationRepository(IPublicationRepository publicationRepository) {
         this.publicationRepository= publicationRepository;
     }
-
-
     private IUserRepository userRepository;
     @Autowired
     public void setUserRepository(IUserRepository userRepository) {
@@ -88,10 +92,6 @@ public class PublicationServiceImpl implements IPublicationService {
             return response;
 
     }
-
-
-
-
     @Override
     public List<InputDTO> getDataUser(List<Input> inputList){
         List<InputDTO> inputDTOS =  new ArrayList<InputDTO>();
@@ -104,22 +104,54 @@ public class PublicationServiceImpl implements IPublicationService {
         }
         return inputDTOS;
     }
-
-
     @Override
     public DetailPublicationDTO getDetailPublication(Long id_publication) {
         Input input=publicationRepository.findById(id_publication)
                 .orElseThrow((() -> new DataNotFoundException("Publication dont exist")));
         DetailPublicationDTO detailPublicationDTO = DetailPublicationMapper.INSTANCE.toDetailPublicationDTO(input);
         detailPublicationDTO.setCommentsList(null);
-        List<Input_comments> comment= commentRepository.findByIdInput(id_publication);
-        if(!comment.isEmpty()){
+        AsignateScore(id_publication, detailPublicationDTO);
+        detailPublicationDTO.setResponseslist(ResponsesInputs(id_publication));
+        return detailPublicationDTO;
+    }
+    @Override
+    public List<DetailPublicationDTO> ResponsesInputs(Long id_publication){
+        List<Input> responses = publicationRepository.findAllResponses(id_publication);
+        List<DetailPublicationDTO> list= new ArrayList<DetailPublicationDTO>();
+        for(Input newlist:responses){
+            DetailPublicationDTO detailPublicationDTO = DetailPublicationMapper.INSTANCE.toDetailPublicationDTO(newlist);
+            AsignateScore(id_publication, detailPublicationDTO);
+            list.add(detailPublicationDTO);
+        }
+        return list;
+    }
+
+    private void AsignateScore(Long id_publication, DetailPublicationDTO detailPublicationDTO) {
+        set_comments_user(id_publication, detailPublicationDTO);
+
+        List<Score> score=scoreRepository.getScoreByIdInput(id_publication);
+        int count=0;
+        if(!score.isEmpty()){
+            for (Score newscore : score) {
+
+                if (newscore.getIs_positive()) {
+                    count = count + 1;
+                } else {
+                    count = count - 1;
+                }
+            }
+        }
+        detailPublicationDTO.setScore((long) count);
+    }
+
+    private void set_comments_user(Long id_publication, DetailPublicationDTO detailPublicationDTO) {
+        List<Input_comments> comment = commentRepository.findByIdInput(id_publication);
+        if (!comment.isEmpty()) {
             detailPublicationDTO.setCommentsList(comment);
         }
         User user = userRepository.findById(detailPublicationDTO.getId_user())
                 .orElseThrow((() -> new DataNotFoundException("User of this publication dont exist")));
         detailPublicationDTO.setUsername(user.getUsername());
         detailPublicationDTO.setPhoto_user(user.getUserPhotoUrl());
-        return detailPublicationDTO;
     }
 }
