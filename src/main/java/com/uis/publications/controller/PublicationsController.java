@@ -12,7 +12,7 @@ import java.util.Map;
  * @autor Juan David Morantes Vergara
  */
 @RestController
-@RequestMapping("/api/publications")
+@RequestMapping("/api")
 public class PublicationsController {
 
     private IPublicationService publicationService;
