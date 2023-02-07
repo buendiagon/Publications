@@ -1,12 +1,14 @@
 package com.uis.publications.controller;
 
 import com.uis.publications.dto.DetailPublicationDTO;
+import com.uis.publications.dto.PublicationDTO;
 import com.uis.publications.service.interfaces.IPublicationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Map;
 
 /**
@@ -36,5 +38,9 @@ public class PublicationsController {
     @GetMapping("/id_publication/{id}")
     public ResponseEntity<DetailPublicationDTO> getDetailPublication(@PathVariable Long id){
         return ResponseEntity.ok(publicationService.getDetailPublication(id));
+    }
+    @PostMapping
+    public ResponseEntity<Boolean> createPublication(@Valid @RequestBody PublicationDTO publicationsDTO){
+        return ResponseEntity.ok(publicationService.createPublication(publicationsDTO));
     }
  }

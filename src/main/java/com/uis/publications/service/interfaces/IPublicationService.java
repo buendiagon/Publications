@@ -2,6 +2,7 @@ package com.uis.publications.service.interfaces;
 
 import com.uis.publications.dto.DetailPublicationDTO;
 import com.uis.publications.dto.InputDTO;
+import com.uis.publications.dto.PublicationDTO;
 import com.uis.publications.model.Input;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -22,4 +23,6 @@ public interface IPublicationService {
     DetailPublicationDTO getDetailPublication(Long id_publication);
 
     List<DetailPublicationDTO> ResponsesInputs(Long id_publication);
+
+    Boolean createPublication(PublicationDTO publicationDTO);
 }

@@ -30,7 +30,7 @@ public class Input implements Serializable {
     @Column(name = "is_question", nullable = false)
     private Boolean is_question;
     @Column(name = "id_user", nullable = false)
-    private String id_user;
+    private Long id_user;
     @Column(name = "title")
     private String title;
     @Column(name = "created")
