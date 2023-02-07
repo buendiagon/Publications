@@ -2,6 +2,7 @@ package com.uis.publications.service.impl;
 
 import com.uis.publications.dto.DetailPublicationDTO;
 import com.uis.publications.dto.InputDTO;
+import com.uis.publications.dto.PublicationDTO;
 import com.uis.publications.exception.DataNotFoundException;
 import com.uis.publications.exception.TransactionException;
 import com.uis.publications.mappers.DetailPublicationMapper;
@@ -147,6 +148,14 @@ public class PublicationServiceImpl implements IPublicationService {
         }
         return list;
     }
+
+    @Override
+    public Boolean createPublication(PublicationDTO publicationDTO) {
+        Input input = InputMapper.INSTANCE.toInput(publicationDTO);
+        this.publicationRepository.save(input);
+        return true;
+    }
+
 
     private void AsignateScore(Long id_publication, DetailPublicationDTO detailPublicationDTO) {
         set_comments_user(id_publication, detailPublicationDTO);
