@@ -188,6 +188,7 @@ public class PublicationServiceImpl implements IPublicationService {
         UserDTO userDTO=userService.getUserDataByToken(token);
         Score score=scoreRepository.getScoreByIdUserAndInput(userDTO.getId(),id_input);
         try{
+
             scoreRepository.deleteById(score.getId());
         }catch(Exception e){
             throw new TransactionException("Score dont exits");
