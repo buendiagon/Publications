@@ -13,7 +13,7 @@ import java.io.Serializable;
 @Setter
 public class PublicationDTO implements Serializable {
     private static final long serialVersionUID = 6157977660515457077L;
-    @NotNull
+
     private Long id_user;
     @NotNull
     private Long id_career;

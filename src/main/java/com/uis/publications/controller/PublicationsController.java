@@ -43,20 +43,23 @@ public class PublicationsController {
         return ResponseEntity.ok(publicationService.getDetailPublication(id));
     }
     @PostMapping
-    public ResponseEntity<Boolean> createPublication(@Valid @RequestBody PublicationDTO publicationsDTO){
-        return ResponseEntity.ok(publicationService.createPublication(publicationsDTO));
+    public ResponseEntity<Boolean> createPublication(@Valid @RequestBody PublicationDTO publicationsDTO,
+                                                     @RequestHeader("Authorization") String token){
+        return ResponseEntity.ok(publicationService.createPublication(publicationsDTO,token));
     }
     @PostMapping("/comments")
-    public ResponseEntity<Boolean> createComment(@Valid @RequestBody CommentDTO comments){
-        return ResponseEntity.ok(publicationService.createComment(comments));
+    public ResponseEntity<Boolean> createComment(@Valid @RequestBody CommentDTO comments,
+                                                 @RequestHeader("Authorization") String token){
+        return ResponseEntity.ok(publicationService.createComment(comments,token));
     }
     @PostMapping("/score")
     public ResponseEntity<Boolean> createRate(@Valid @RequestBody ScoreDTO scoreDTO,
                                               @RequestHeader("Authorization") String token){
         return ResponseEntity.ok(publicationService.createRate(scoreDTO,token));
     }
-    @DeleteMapping("/score/{id_user}")
-    public ResponseEntity<Boolean> deleteRate(@Valid @PathVariable Long id_user){
-        return ResponseEntity.ok(publicationService.deleteRate(id_user));
+    @DeleteMapping("/score/{id_input}")
+    public ResponseEntity<Boolean> deleteRate(@Valid @PathVariable Long id_input,
+                                              @RequestHeader("Authorization") String token){
+        return ResponseEntity.ok(publicationService.deleteRate(id_input,token));
     }
  }

@@ -150,14 +150,18 @@ public class PublicationServiceImpl implements IPublicationService {
     }
 
     @Override
-    public Boolean createPublication(PublicationDTO publicationDTO) {
+    public Boolean createPublication(PublicationDTO publicationDTO,String token) {
+        UserDTO userDTO=userService.getUserDataByToken(token);
+        publicationDTO.setId_user(userDTO.getId());
         Input input = InputMapper.INSTANCE.toInput(publicationDTO);
         this.publicationRepository.save(input);
         return true;
     }
 
     @Override
-    public Boolean createComment(CommentDTO comment) {
+    public Boolean createComment(CommentDTO comment,String token) {
+        UserDTO userDTO=userService.getUserDataByToken(token);
+        comment.setId_user(userDTO.getId());
         Input_comments comments= CommentMapper.INSTANCE.toComment(comment);
         this.commentRepository.save(comments);
         return true;
@@ -180,10 +184,15 @@ public class PublicationServiceImpl implements IPublicationService {
     }
 
     @Override
-    public Boolean deleteRate(Long id) {
-//        List<Score> score =scoreRepository.getScoreByIdUser(id);
-//        scoreRepository.deleteById(score.getId());
-        return null;
+    public Boolean deleteRate(Long id_input, String token) {
+        UserDTO userDTO=userService.getUserDataByToken(token);
+        Score score=scoreRepository.getScoreByIdUserAndInput(userDTO.getId(),id_input);
+        try{
+            scoreRepository.deleteById(score.getId());
+        }catch(Exception e){
+            throw new TransactionException("Score dont exits");
+        }
+        return true;
     }
 
 

@@ -22,11 +22,11 @@ public interface IPublicationService {
 
     List<DetailPublicationDTO> ResponsesInputs(Long id_publication);
 
-    Boolean createPublication(PublicationDTO publicationDTO);
+    Boolean createPublication(PublicationDTO publicationDTO,String token);
 
-    Boolean createComment(CommentDTO comments);
+    Boolean createComment(CommentDTO comments,String token);
 
     Boolean createRate(ScoreDTO scoreDTO,String token);
 
-    Boolean deleteRate(Long id);
+    Boolean deleteRate(Long id_input,String token );
 }
