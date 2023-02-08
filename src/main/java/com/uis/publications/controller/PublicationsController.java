@@ -3,6 +3,7 @@ package com.uis.publications.controller;
 import com.uis.publications.dto.CommentDTO;
 import com.uis.publications.dto.DetailPublicationDTO;
 import com.uis.publications.dto.PublicationDTO;
+import com.uis.publications.dto.ScoreDTO;
 import com.uis.publications.model.Input_comments;
 import com.uis.publications.service.interfaces.IPublicationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,5 +49,13 @@ public class PublicationsController {
     @PostMapping("/comments")
     public ResponseEntity<Boolean> createComment(@Valid @RequestBody CommentDTO comments){
         return ResponseEntity.ok(publicationService.createComment(comments));
+    }
+    @PostMapping("/score")
+    public ResponseEntity<Boolean> createRate(@Valid @RequestBody ScoreDTO scoreDTO){
+        return ResponseEntity.ok(publicationService.createRate(scoreDTO));
+    }
+    @DeleteMapping("/score/{id}")
+    public ResponseEntity<Boolean> deleteRate(@Valid @PathVariable Long id){
+        return ResponseEntity.ok(publicationService.deleteRate(id));
     }
  }
