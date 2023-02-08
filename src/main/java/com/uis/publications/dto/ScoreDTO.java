@@ -14,7 +14,7 @@ import java.io.Serializable;
 public class ScoreDTO implements Serializable {
     private static final long serialVersionUID = 6204410800970357596L;
     private Long id;
-    @NotNull
+
     private Long id_user;
     @NotNull
     private Long id_input;

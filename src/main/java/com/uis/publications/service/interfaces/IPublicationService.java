@@ -26,7 +26,7 @@ public interface IPublicationService {
 
     Boolean createComment(CommentDTO comments);
 
-    Boolean createRate(ScoreDTO scoreDTO);
+    Boolean createRate(ScoreDTO scoreDTO,String token);
 
     Boolean deleteRate(Long id);
 }
