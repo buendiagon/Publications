@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.io.NotSerializableException;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * @autor Juan David Morantes Vergara
@@ -27,4 +28,13 @@ public class Score implements Serializable {
     private Long id_input;
     @Column(name = "is_positive", nullable = false)
     private Boolean is_positive;
+    @Column(name = "updated")
+    @Temporal(TemporalType.DATE)
+    private Date updated = new Date();
+
+
+    @Column(name = "created")
+    @Temporal(TemporalType.DATE)
+    private Date created = new Date();
+
 }

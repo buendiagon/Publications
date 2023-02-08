@@ -1,10 +1,7 @@
 package com.uis.publications.service.interfaces;
 
 
-import com.uis.publications.dto.CommentDTO;
-import com.uis.publications.dto.DetailPublicationDTO;
-import com.uis.publications.dto.InputDTO;
-import com.uis.publications.dto.PublicationDTO;
+import com.uis.publications.dto.*;
 import com.uis.publications.model.Input;
 import org.springframework.stereotype.Service;
 
@@ -28,4 +25,8 @@ public interface IPublicationService {
     Boolean createPublication(PublicationDTO publicationDTO);
 
     Boolean createComment(CommentDTO comments);
+
+    Boolean createRate(ScoreDTO scoreDTO);
+
+    Boolean deleteRate(Long id);
 }

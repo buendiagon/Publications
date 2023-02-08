@@ -1,14 +1,12 @@
 package com.uis.publications.service.impl;
 
-import com.uis.publications.dto.CommentDTO;
-import com.uis.publications.dto.DetailPublicationDTO;
-import com.uis.publications.dto.InputDTO;
-import com.uis.publications.dto.PublicationDTO;
+import com.uis.publications.dto.*;
 import com.uis.publications.exception.DataNotFoundException;
 import com.uis.publications.exception.TransactionException;
 import com.uis.publications.mappers.CommentMapper;
 import com.uis.publications.mappers.DetailPublicationMapper;
 import com.uis.publications.mappers.InputMapper;
+import com.uis.publications.mappers.ScoreMapper;
 import com.uis.publications.model.Input;
 import com.uis.publications.model.Input_comments;
 import com.uis.publications.model.Score;
@@ -84,7 +82,7 @@ public class PublicationServiceImpl implements IPublicationService {
     private Map<String, Object> getStringObjectMap(Page<Input> pageTuts) {
         List<Input> inputList;
         inputList = pageTuts.getContent();
-        List<InputDTO> inputDTOS=new ArrayList<InputDTO>();
+        List<InputDTO> inputDTOS=new ArrayList<>();
 
         for(Input input:inputList){
             InputDTO inputDTO= InputMapper.INSTANCE.toInputDTO(input);
@@ -102,7 +100,7 @@ public class PublicationServiceImpl implements IPublicationService {
             }
             inputDTO.setScore((long) count);
             User user= userRepository.findById(inputDTO.getId_user())
-                    .orElseThrow((() -> new DataNotFoundException("User dont exist")));;
+                    .orElseThrow((() -> new DataNotFoundException("User dont exist")));
             inputDTO.setUsername(user.getUsername());
             inputDTO.setPhoto_user(user.getUserPhotoUrl());
             inputDTOS.add(inputDTO);
@@ -118,10 +116,10 @@ public class PublicationServiceImpl implements IPublicationService {
     }
     @Override
     public List<InputDTO> getDataUser(List<Input> inputList){
-        List<InputDTO> inputDTOS =  new ArrayList<InputDTO>();
+        List<InputDTO> inputDTOS =  new ArrayList<>();
         for(Input newList: inputList){
-            User user= userRepository.findById(Long.valueOf(newList.getId_user()))
-                    .orElseThrow((() -> new DataNotFoundException("User dont exist")));;;
+            User user= userRepository.findById(newList.getId_user())
+                    .orElseThrow((() -> new DataNotFoundException("User dont exist")));
             InputDTO inputDTO= InputMapper.INSTANCE.toInputDTO(newList);
             inputDTO.setUsername(user.getUsername());
             inputDTO.setPhoto_user(user.getUserPhotoUrl());
@@ -142,7 +140,7 @@ public class PublicationServiceImpl implements IPublicationService {
     @Override
     public List<DetailPublicationDTO> ResponsesInputs(Long id_publication){
         List<Input> responses = publicationRepository.findAllResponses(id_publication);
-        List<DetailPublicationDTO> list= new ArrayList<DetailPublicationDTO>();
+        List<DetailPublicationDTO> list= new ArrayList<>();
         for(Input newlist:responses){
             DetailPublicationDTO detailPublicationDTO = DetailPublicationMapper.INSTANCE.toDetailPublicationDTO(newlist);
             AsignateScore(id_publication, detailPublicationDTO);
@@ -162,6 +160,26 @@ public class PublicationServiceImpl implements IPublicationService {
     public Boolean createComment(CommentDTO comment) {
         Input_comments comments= CommentMapper.INSTANCE.toComment(comment);
         this.commentRepository.save(comments);
+        return true;
+    }
+
+    @Override
+    public Boolean createRate(ScoreDTO scoreDTO) {
+        if (scoreRepository.getScoreByIdUserAndInput(scoreDTO.getId_user(), scoreDTO.getId_input())==null) {
+            Score score= ScoreMapper.INSTANCE.toScore(scoreDTO);
+            scoreRepository.save(score);
+            return true;
+        }else{
+            return false;
+        }
+
+    }
+
+    @Override
+    public Boolean deleteRate(Long id) {
+        Score score =scoreRepository.findById(id)
+                .orElseThrow((() -> new DataNotFoundException("Rate Dont exits")));
+        scoreRepository.deleteById(score.getId());
         return true;
     }
 
