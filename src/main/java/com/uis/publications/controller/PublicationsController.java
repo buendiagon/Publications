@@ -54,8 +54,8 @@ public class PublicationsController {
     public ResponseEntity<Boolean> createRate(@Valid @RequestBody ScoreDTO scoreDTO){
         return ResponseEntity.ok(publicationService.createRate(scoreDTO));
     }
-    @DeleteMapping("/score/{id}")
-    public ResponseEntity<Boolean> deleteRate(@Valid @PathVariable Long id){
-        return ResponseEntity.ok(publicationService.deleteRate(id));
+    @DeleteMapping("/score/{id_user}")
+    public ResponseEntity<Boolean> deleteRate(@Valid @PathVariable Long id_user){
+        return ResponseEntity.ok(publicationService.deleteRate(id_user));
     }
  }

@@ -143,7 +143,7 @@ public class PublicationServiceImpl implements IPublicationService {
         List<DetailPublicationDTO> list= new ArrayList<>();
         for(Input newlist:responses){
             DetailPublicationDTO detailPublicationDTO = DetailPublicationMapper.INSTANCE.toDetailPublicationDTO(newlist);
-            AsignateScore(id_publication, detailPublicationDTO);
+            AsignateScore(newlist.getId(), detailPublicationDTO);
             list.add(detailPublicationDTO);
         }
         return list;
@@ -177,8 +177,7 @@ public class PublicationServiceImpl implements IPublicationService {
 
     @Override
     public Boolean deleteRate(Long id) {
-        Score score =scoreRepository.findById(id)
-                .orElseThrow((() -> new DataNotFoundException("Rate Dont exits")));
+        Score score =scoreRepository.getScoreByIdUser(id);
         scoreRepository.deleteById(score.getId());
         return true;
     }
