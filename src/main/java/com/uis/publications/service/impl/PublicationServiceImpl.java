@@ -32,6 +32,9 @@ import java.util.Map;
  */
 @Service
 public class PublicationServiceImpl implements IPublicationService {
+    @Autowired
+    private UserServiceImpl userService;
+
     private IScoreRepository scoreRepository;
     @Autowired
     public void setScoreRepository(IScoreRepository scoreRepository) {
@@ -54,10 +57,7 @@ public class PublicationServiceImpl implements IPublicationService {
         this.userRepository = userRepository;
     }
 
-    @Autowired
-    public void SetPublicationRepository(IPublicationRepository publicationRepository) {
-        this.publicationRepository=publicationRepository;
-    }
+
     @Override
     public Map<String, Object> getPublications(int page, int size){
         try {
@@ -164,9 +164,13 @@ public class PublicationServiceImpl implements IPublicationService {
     }
 
     @Override
-    public Boolean createRate(ScoreDTO scoreDTO) {
-        if (scoreRepository.getScoreByIdUserAndInput(scoreDTO.getId_user(), scoreDTO.getId_input())==null) {
+    public Boolean createRate(ScoreDTO scoreDTO, String token) {
+        UserDTO userDTO=userService.getUserDataByToken(token);
+        if (scoreRepository.getScoreByIdUserAndInput(userDTO.getId(), scoreDTO.getId_input())==null) {
+
+            scoreDTO.setId_user(userDTO.getId());
             Score score= ScoreMapper.INSTANCE.toScore(scoreDTO);
+
             scoreRepository.save(score);
             return true;
         }else{
@@ -177,9 +181,9 @@ public class PublicationServiceImpl implements IPublicationService {
 
     @Override
     public Boolean deleteRate(Long id) {
-        Score score =scoreRepository.getScoreByIdUser(id);
-        scoreRepository.deleteById(score.getId());
-        return true;
+//        List<Score> score =scoreRepository.getScoreByIdUser(id);
+//        scoreRepository.deleteById(score.getId());
+        return null;
     }
 
 

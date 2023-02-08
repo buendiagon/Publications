@@ -51,8 +51,9 @@ public class PublicationsController {
         return ResponseEntity.ok(publicationService.createComment(comments));
     }
     @PostMapping("/score")
-    public ResponseEntity<Boolean> createRate(@Valid @RequestBody ScoreDTO scoreDTO){
-        return ResponseEntity.ok(publicationService.createRate(scoreDTO));
+    public ResponseEntity<Boolean> createRate(@Valid @RequestBody ScoreDTO scoreDTO,
+                                              @RequestHeader("Authorization") String token){
+        return ResponseEntity.ok(publicationService.createRate(scoreDTO,token));
     }
     @DeleteMapping("/score/{id_user}")
     public ResponseEntity<Boolean> deleteRate(@Valid @PathVariable Long id_user){
