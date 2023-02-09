@@ -198,6 +198,7 @@ public class PublicationServiceImpl implements IPublicationService {
 
     @Override
     public List<PublicationDTO> searchPublication(String description) {
+        description = description.replace(" "," & ");
         List<Input> inputList=publicationRepository.findAllByDescription(description);
         return InputMapper.INSTANCE.toPublicationDTOList(inputList);
     }
