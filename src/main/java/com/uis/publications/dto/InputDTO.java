@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * @autor Juan David Morantes Vergara
@@ -29,4 +30,6 @@ public class InputDTO implements Serializable {
     @NotNull
     private Boolean is_question;
     private String title;
+    private Date created;
+    private Date updated;
 }
