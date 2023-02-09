@@ -196,6 +196,12 @@ public class PublicationServiceImpl implements IPublicationService {
         return true;
     }
 
+    @Override
+    public List<PublicationDTO> searchPublication(String description) {
+        List<Input> inputList=publicationRepository.findAllByDescription(description);
+        return InputMapper.INSTANCE.toPublicationDTOList(inputList);
+    }
+
 
     private void AsignateScore(Long id_publication, DetailPublicationDTO detailPublicationDTO) {
         set_comments_user(id_publication, detailPublicationDTO);

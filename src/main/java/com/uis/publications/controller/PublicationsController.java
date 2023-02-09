@@ -4,7 +4,6 @@ import com.uis.publications.dto.CommentDTO;
 import com.uis.publications.dto.DetailPublicationDTO;
 import com.uis.publications.dto.PublicationDTO;
 import com.uis.publications.dto.ScoreDTO;
-import com.uis.publications.model.Input_comments;
 import com.uis.publications.service.interfaces.IPublicationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -12,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -22,11 +22,6 @@ import java.util.Map;
 public class PublicationsController {
 
     private IPublicationService publicationService;
-    @Autowired
-    @Qualifier("publicationServiceImpl")
-    public void setPublicationService(IPublicationService publicationService) {
-        this.publicationService = publicationService;
-    }
     @GetMapping
     public ResponseEntity<Map<String,Object>> getPublications(@RequestParam(defaultValue = "0") int page,
                                                               @RequestParam(defaultValue = "3") int size){
@@ -61,5 +56,16 @@ public class PublicationsController {
     public ResponseEntity<Boolean> deleteRate(@Valid @PathVariable Long id_input,
                                               @RequestHeader("Authorization") String token){
         return ResponseEntity.ok(publicationService.deleteRate(id_input,token));
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<PublicationDTO>> searchPublication(@RequestParam String search){
+        return ResponseEntity.ok(publicationService.searchPublication(search));
+    }
+
+    @Autowired
+    @Qualifier("publicationServiceImpl")
+    public void setPublicationService(IPublicationService publicationService) {
+        this.publicationService = publicationService;
     }
  }

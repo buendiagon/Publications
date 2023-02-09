@@ -29,4 +29,6 @@ public interface IPublicationService {
     Boolean createRate(ScoreDTO scoreDTO,String token);
 
     Boolean deleteRate(Long id_input,String token );
+
+    List<PublicationDTO> searchPublication(String description);
 }
