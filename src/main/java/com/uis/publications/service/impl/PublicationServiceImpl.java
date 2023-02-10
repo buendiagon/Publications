@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @autor Juan David Morantes Vergara
@@ -223,10 +224,19 @@ public class PublicationServiceImpl implements IPublicationService {
     }
 
     private void set_comments_user(Long id_publication, DetailPublicationDTO detailPublicationDTO) {
-        List<Input_comments> comment = commentRepository.findByIdInput(id_publication);
+        List<Input_comments>  c=commentRepository.findByIdInput(id_publication);
+        List<CommentDTO> comment = c.stream()
+                .map(CommentMapper.INSTANCE::toCommentDTO).collect(Collectors.toList());;
         if (!comment.isEmpty()) {
+            for(CommentDTO comments:comment){
+                User user = userRepository.findById(detailPublicationDTO.getId_user())
+                        .orElseThrow((() -> new DataNotFoundException("User of this publication dont exist")));
+                comments.setUsername(user.getUsername());
+                comments.setPhoto_user(user.getUserPhotoUrl());
+            }
             detailPublicationDTO.setCommentsList(comment);
         }
+
         User user = userRepository.findById(detailPublicationDTO.getId_user())
                 .orElseThrow((() -> new DataNotFoundException("User of this publication dont exist")));
         detailPublicationDTO.setUsername(user.getUsername());
