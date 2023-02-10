@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * @autor Juan David Morantes Vergara
@@ -19,7 +20,10 @@ public class CommentDTO implements Serializable {
     private Long id_input;
     @NotNull
     private String description;
-
+    private String username;
+    private String photo_user;
+    private Date created;
+    private Date updated;
 
 
 }

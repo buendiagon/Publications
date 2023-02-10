@@ -30,6 +30,6 @@ public class DetailPublicationDTO implements Serializable {
     @NotNull
     private Boolean is_question;
     private String title;
-    private List<Input_comments> commentsList;
+    private List<CommentDTO> commentsList;
     private List<DetailPublicationDTO> responseslist;
 }
