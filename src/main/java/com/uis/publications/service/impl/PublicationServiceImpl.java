@@ -176,6 +176,25 @@ public class PublicationServiceImpl implements IPublicationService {
     @Override
     public Boolean createRate(ScoreDTO scoreDTO, String token) {
         UserDTO userDTO=userService.getUserDataByToken(token);
+
+        List<Score> score1=scoreRepository.getScoreByIdUser(userDTO.getId());
+        int count=0;
+        if(!score1.isEmpty()){
+            for (Score newscore : score1) {
+
+                if (newscore.getIs_positive()) {
+                    count = count + 1;
+                } else {
+                    count = count - 1;
+                }
+            }
+            if(count<2){
+                throw new ValidationException("User is not trust");
+            }
+        }
+
+
+
         if (scoreRepository.getScoreByIdUserAndInput(userDTO.getId(), scoreDTO.getId_input())==null) {
 
             scoreDTO.setId_user(userDTO.getId());
