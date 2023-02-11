@@ -47,6 +47,7 @@ public class PublicationsController {
                                                  @RequestHeader("Authorization") String token){
         return ResponseEntity.ok(publicationService.createComment(comments,token));
     }
+//    Holo
     @PostMapping("/score")
     public ResponseEntity<Boolean> createRate(@Valid @RequestBody ScoreDTO scoreDTO,
                                               @RequestHeader("Authorization") String token){

@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -32,4 +33,6 @@ public class DetailPublicationDTO implements Serializable {
     private String title;
     private List<CommentDTO> commentsList;
     private List<DetailPublicationDTO> responseslist;
+    private Date created;
+    private Date updated;
 }
