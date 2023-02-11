@@ -22,7 +22,7 @@ public class CommentDTO implements Serializable {
     private String description;
     private String username;
     private String photo_user;
-    private Date created;
+    private Date created = new Date();
     private Date updated;
 
 
