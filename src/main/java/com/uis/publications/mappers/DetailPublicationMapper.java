@@ -13,6 +13,7 @@ import org.mapstruct.factory.Mappers;
 public interface DetailPublicationMapper {
     DetailPublicationMapper INSTANCE= Mappers.getMapper(DetailPublicationMapper.class);
 
+
     DetailPublicationDTO toDetailPublicationDTO(Input inputDTO);
 
     Input toInputDTO(DetailPublicationDTO detailPublicationDTO);
