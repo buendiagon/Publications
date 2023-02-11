@@ -3,6 +3,7 @@ package com.uis.publications.service.impl;
 import com.uis.publications.dto.*;
 import com.uis.publications.exception.DataNotFoundException;
 import com.uis.publications.exception.TransactionException;
+import com.uis.publications.exception.ValidationException;
 import com.uis.publications.mappers.CommentMapper;
 import com.uis.publications.mappers.DetailPublicationMapper;
 import com.uis.publications.mappers.InputMapper;
@@ -132,6 +133,9 @@ public class PublicationServiceImpl implements IPublicationService {
     public DetailPublicationDTO getDetailPublication(Long id_publication) {
         Input input=publicationRepository.findById(id_publication)
                 .orElseThrow((() -> new DataNotFoundException("Publication dont exist")));
+        if(input.getIs_question()){
+            throw new ValidationException("Is not a question");
+        }
         DetailPublicationDTO detailPublicationDTO = DetailPublicationMapper.INSTANCE.toDetailPublicationDTO(input);
         detailPublicationDTO.setCommentsList(null);
         AsignateScore(id_publication, detailPublicationDTO);
@@ -158,6 +162,7 @@ public class PublicationServiceImpl implements IPublicationService {
         this.publicationRepository.save(input);
         return true;
     }
+//todo El get comment asigna mal el username y la photo
 
     @Override
     public Boolean createComment(CommentDTO comment,String token) {
