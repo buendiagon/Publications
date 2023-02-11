@@ -133,7 +133,7 @@ public class PublicationServiceImpl implements IPublicationService {
     public DetailPublicationDTO getDetailPublication(Long id_publication) {
         Input input=publicationRepository.findById(id_publication)
                 .orElseThrow((() -> new DataNotFoundException("Publication dont exist")));
-        if(input.getIs_question()){
+        if(!input.getIs_question()){
             throw new ValidationException("Is not a question");
         }
         DetailPublicationDTO detailPublicationDTO = DetailPublicationMapper.INSTANCE.toDetailPublicationDTO(input);
