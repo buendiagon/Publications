@@ -234,7 +234,7 @@ public class PublicationServiceImpl implements IPublicationService {
                 .map(CommentMapper.INSTANCE::toCommentDTO).collect(Collectors.toList());;
         if (!comment.isEmpty()) {
             for(CommentDTO comments:comment){
-                User user = userRepository.findById(detailPublicationDTO.getId_user())
+                User user = userRepository.findById(comments.getId_user())
                         .orElseThrow((() -> new DataNotFoundException("User of this publication dont exist")));
                 comments.setUsername(user.getUsername());
                 comments.setPhoto_user(user.getUserPhotoUrl());
