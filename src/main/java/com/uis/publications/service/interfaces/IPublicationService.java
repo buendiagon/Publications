@@ -30,5 +30,5 @@ public interface IPublicationService {
 
     Boolean deleteRate(Long id_input,String token );
 
-    List<PublicationDTO> searchPublication(String description);
+    List<InputDTO> searchPublication(String description);
 }
