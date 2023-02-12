@@ -1,9 +1,6 @@
 package com.uis.publications.controller;
 
-import com.uis.publications.dto.CommentDTO;
-import com.uis.publications.dto.DetailPublicationDTO;
-import com.uis.publications.dto.PublicationDTO;
-import com.uis.publications.dto.ScoreDTO;
+import com.uis.publications.dto.*;
 import com.uis.publications.service.interfaces.IPublicationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -60,7 +57,7 @@ public class PublicationsController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<PublicationDTO>> searchPublication(@RequestParam String search){
+    public ResponseEntity<List<InputDTO>> searchPublication(@RequestParam String search){
         return ResponseEntity.ok(publicationService.searchPublication(search));
     }
 

@@ -20,4 +20,5 @@ public interface InputMapper {
     Input toInput(PublicationDTO publicationDTO);
     PublicationDTO toPublicationDTO(Input input);
     List<PublicationDTO> toPublicationDTOList(List<Input> inputList);
+    List<InputDTO> toInputDTOList(List<Input> inputList);
 }
