@@ -27,5 +27,8 @@ public interface IPublicationRepository extends JpaRepository<Input,Long> {
     @Query("FROM Input i WHERE fts(:description, :description) = true")
     List<Input> findAllByDescription(String description);
 
+    @Query("From Input i where i.id_user=:id_user")
+    List<Input> findById_user(Long id_user);
+
 
 }
