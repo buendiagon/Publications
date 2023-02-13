@@ -23,10 +23,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -176,26 +173,47 @@ public class PublicationServiceImpl implements IPublicationService {
     @Override
     public Boolean createRate(ScoreDTO scoreDTO, String token) {
         UserDTO userDTO=userService.getUserDataByToken(token);
+        /*
+         *todo baicamente debo obtener todas las publicaciones con el id del user
+         * con lo cual verificar si tienen putnaje y que punteje tienen
+         */
 
-        List<Score> score1=scoreRepository.getScoreByIdUser(userDTO.getId());
-        int count=0;
-        if(!score1.isEmpty()){
-            for (Score newscore : score1) {
-
-                if (newscore.getIs_positive()) {
-                    count = count + 1;
-                } else {
-                    count = count - 1;
+        List<Input> inputList=publicationRepository.findById_user(userDTO.getId());
+        List<Long> ids=new ArrayList<>();
+        if(!inputList.isEmpty()){
+            for(Input input:inputList){
+                Long id = input.getId();
+                if (!ids.contains(id)) {
+                    ids.add(id);
                 }
             }
-            if(count<2){
+        }else{
+            throw new ValidationException("User is not trust");
+        }
+        List<Score> scoreList=new ArrayList<>();
+        for(Long l:ids) {
+            List<Score> scores= scoreRepository.getScoreByIdInput(l);
+            scoreList.addAll(scores);
+        }
+        int count=0;
+        if(!scoreList.isEmpty()){
+            for(Score s:scoreList){
+                if(s.getIs_positive()){
+                    count=count+1;
+                }else{
+                    count=count-1;
+                }
+            }
+            if(count<3){
                 throw new ValidationException("User is not trust");
             }
+        }else{
+            throw new ValidationException("User is not trust");
         }
 
-
-
-        if (scoreRepository.getScoreByIdUserAndInput(userDTO.getId(), scoreDTO.getId_input())==null) {
+        //todo verificar si el usuario no hizo rate anteriormente
+        Score s=scoreRepository.getScoreByIdUserAndInput(userDTO.getId(), scoreDTO.getId_input());
+        if (s==null) {
 
             scoreDTO.setId_user(userDTO.getId());
             Score score= ScoreMapper.INSTANCE.toScore(scoreDTO);
@@ -203,7 +221,12 @@ public class PublicationServiceImpl implements IPublicationService {
             scoreRepository.save(score);
             return true;
         }else{
-            return false;
+            if(scoreDTO.getIs_positive()==s.getIs_positive()){
+                throw new ValidationException("User already set this score");
+            }else{
+                deleteRate(scoreDTO.getId_input(),token);
+                return true;
+            }
         }
 
     }
