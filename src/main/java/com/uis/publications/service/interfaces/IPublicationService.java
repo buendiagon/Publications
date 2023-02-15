@@ -18,7 +18,7 @@ public interface IPublicationService {
 
     List<InputDTO> getDataUser(List<Input> inputList);
 
-    DetailPublicationDTO getDetailPublication(Long id_publication);
+    DetailPublicationDTO getDetailPublication(Long id_publication, String token);
 
     List<DetailPublicationDTO> ResponsesInputs(Long id_publication);
 

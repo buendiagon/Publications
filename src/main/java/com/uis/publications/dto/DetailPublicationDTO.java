@@ -35,4 +35,5 @@ public class DetailPublicationDTO implements Serializable {
     private List<DetailPublicationDTO> responseslist;
     private Date created;
     private Date updated;
+    private Boolean like=null;
 }

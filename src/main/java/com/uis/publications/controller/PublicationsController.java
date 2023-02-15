@@ -34,8 +34,9 @@ public class PublicationsController {
         return ResponseEntity.ok(publicationService.getPublicationsByCareer(page, size, id));
     }
     @GetMapping("/id_publication/{id}")
-    public ResponseEntity<DetailPublicationDTO> getDetailPublication(@PathVariable Long id){
-        return ResponseEntity.ok(publicationService.getDetailPublication(id));
+    public ResponseEntity<DetailPublicationDTO> getDetailPublication(@PathVariable Long id,
+                                                                     @RequestHeader("Authorization") String token){
+        return ResponseEntity.ok(publicationService.getDetailPublication(id,token));
     }
     @PostMapping
     public ResponseEntity<Boolean> createPublication(@Valid @RequestBody PublicationDTO publicationsDTO,
