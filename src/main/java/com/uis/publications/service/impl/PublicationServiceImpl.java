@@ -127,16 +127,21 @@ public class PublicationServiceImpl implements IPublicationService {
         return inputDTOS;
     }
     @Override
-    public DetailPublicationDTO getDetailPublication(Long id_publication) {
+    public DetailPublicationDTO getDetailPublication(Long id_publication,String token) {
         Input input=publicationRepository.findById(id_publication)
                 .orElseThrow((() -> new DataNotFoundException("Publication dont exist")));
-        if(!input.getIs_question()){
-            throw new ValidationException("Is not a question");
-        }
+//        if(!input.getIs_question()){
+//            throw new ValidationException("Is not a question");
+//        }
         DetailPublicationDTO detailPublicationDTO = DetailPublicationMapper.INSTANCE.toDetailPublicationDTO(input);
         detailPublicationDTO.setCommentsList(null);
         AsignateScore(id_publication, detailPublicationDTO);
         detailPublicationDTO.setResponseslist(ResponsesInputs(id_publication));
+        UserDTO userDTO=userService.getUserDataByToken(token);
+        Score s=scoreRepository.getScoreByIdUserAndInput(userDTO.getId(), id_publication);
+        if(!(s==null)){
+            detailPublicationDTO.setLike(s.getIs_positive());
+        }
         return detailPublicationDTO;
     }
     @Override
@@ -159,7 +164,6 @@ public class PublicationServiceImpl implements IPublicationService {
         this.publicationRepository.save(input);
         return true;
     }
-//todo El get comment asigna mal el username y la photo
 
     @Override
     public Boolean createComment(CommentDTO comment,String token) {
@@ -173,10 +177,7 @@ public class PublicationServiceImpl implements IPublicationService {
     @Override
     public Boolean createRate(ScoreDTO scoreDTO, String token) {
         UserDTO userDTO=userService.getUserDataByToken(token);
-        /*
-         *todo baicamente debo obtener todas las publicaciones con el id del user
-         * con lo cual verificar si tienen putnaje y que punteje tienen
-         */
+
 
         List<Input> inputList=publicationRepository.findById_user(userDTO.getId());
         List<Long> ids=new ArrayList<>();
@@ -211,7 +212,6 @@ public class PublicationServiceImpl implements IPublicationService {
             throw new ValidationException("User is not trust");
         }
 
-        //todo verificar si el usuario no hizo rate anteriormente
         Score s=scoreRepository.getScoreByIdUserAndInput(userDTO.getId(), scoreDTO.getId_input());
         if (s==null) {
 
@@ -222,7 +222,8 @@ public class PublicationServiceImpl implements IPublicationService {
             return true;
         }else{
             if(scoreDTO.getIs_positive()==s.getIs_positive()){
-                throw new ValidationException("User already set this score");
+                deleteRate(scoreDTO.getId_input(),token);
+                return true;
             }else{
                 deleteRate(scoreDTO.getId_input(),token);
                 return true;
