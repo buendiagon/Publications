@@ -20,7 +20,7 @@ public interface IPublicationService {
 
     DetailPublicationDTO getDetailPublication(Long id_publication, String token);
 
-    List<DetailPublicationDTO> ResponsesInputs(Long id_publication);
+    List<DetailPublicationDTO> ResponsesInputs(Long id_publication,String token);
 
     Boolean createPublication(PublicationDTO publicationDTO,String token);
 
