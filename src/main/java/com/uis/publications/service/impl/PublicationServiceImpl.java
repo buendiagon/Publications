@@ -136,7 +136,7 @@ public class PublicationServiceImpl implements IPublicationService {
         DetailPublicationDTO detailPublicationDTO = DetailPublicationMapper.INSTANCE.toDetailPublicationDTO(input);
         detailPublicationDTO.setCommentsList(null);
         AsignateScore(id_publication, detailPublicationDTO);
-        detailPublicationDTO.setResponseslist(ResponsesInputs(id_publication));
+        detailPublicationDTO.setResponseslist(ResponsesInputs(id_publication,token));
         UserDTO userDTO=userService.getUserDataByToken(token);
         Score s=scoreRepository.getScoreByIdUserAndInput(userDTO.getId(), id_publication);
         if(!(s==null)){
@@ -145,12 +145,17 @@ public class PublicationServiceImpl implements IPublicationService {
         return detailPublicationDTO;
     }
     @Override
-    public List<DetailPublicationDTO> ResponsesInputs(Long id_publication){
+    public List<DetailPublicationDTO> ResponsesInputs(Long id_publication, String token){
         List<Input> responses = publicationRepository.findAllResponses(id_publication);
         List<DetailPublicationDTO> list= new ArrayList<>();
         for(Input newlist:responses){
             DetailPublicationDTO detailPublicationDTO = DetailPublicationMapper.INSTANCE.toDetailPublicationDTO(newlist);
             AsignateScore(newlist.getId(), detailPublicationDTO);
+            UserDTO userDTO=userService.getUserDataByToken(token);
+            Score s=scoreRepository.getScoreByIdUserAndInput(userDTO.getId(), id_publication);
+            if(!(s==null)){
+                detailPublicationDTO.setLike(s.getIs_positive());
+            }
             list.add(detailPublicationDTO);
         }
         return list;
