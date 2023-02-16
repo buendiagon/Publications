@@ -152,7 +152,7 @@ public class PublicationServiceImpl implements IPublicationService {
             DetailPublicationDTO detailPublicationDTO = DetailPublicationMapper.INSTANCE.toDetailPublicationDTO(newlist);
             AsignateScore(newlist.getId(), detailPublicationDTO);
             UserDTO userDTO=userService.getUserDataByToken(token);
-            Score s=scoreRepository.getScoreByIdUserAndInput(userDTO.getId(), id_publication);
+            Score s=scoreRepository.getScoreByIdUserAndInput(userDTO.getId(), newlist.getId());
             if(!(s==null)){
                 detailPublicationDTO.setLike(s.getIs_positive());
             }
