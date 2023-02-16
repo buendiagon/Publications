@@ -208,8 +208,6 @@ public class PublicationServiceImpl implements IPublicationService {
             if(count<-5){
                 throw new ValidationException("User is not trust");
             }
-        }else{
-            throw new ValidationException("User is not trust");
         }
 
         Score s=scoreRepository.getScoreByIdUserAndInput(userDTO.getId(), scoreDTO.getId_input());
