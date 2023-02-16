@@ -205,7 +205,7 @@ public class PublicationServiceImpl implements IPublicationService {
                     count=count-1;
                 }
             }
-            if(count<3){
+            if(count<-5){
                 throw new ValidationException("User is not trust");
             }
         }else{
@@ -225,7 +225,12 @@ public class PublicationServiceImpl implements IPublicationService {
                 deleteRate(scoreDTO.getId_input(),token);
                 return true;
             }else{
+                //todo corregir
                 deleteRate(scoreDTO.getId_input(),token);
+                scoreDTO.setId_user(userDTO.getId());
+                Score score= ScoreMapper.INSTANCE.toScore(scoreDTO);
+
+                scoreRepository.save(score);
                 return true;
             }
         }
